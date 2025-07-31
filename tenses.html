@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Tenses - E.RECALLER</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --warning: #f72585;
+      --info: #560bad;
+      --present: #4cc9f0;
+      --past: #f72585;
+      --future: #b5179e;
+      --text: #646464;
+      --bg: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Header Styles */
+    .header {
+      background: linear-gradient(135deg, var(--bg), var(--bg));
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      height: 40px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      height: 100vh;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 1001;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-nav.active {
+      left: 0;
+    }
+
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+    }
+
+    .mobile-nav-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-nav-icon {
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 0;
+      text-align: center;
+      background: linear-gradient(135deg, #4361ee, #3a0ca3);
+      color: white;
+      margin-bottom: 2rem;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      animation: fadeInDown 1s ease;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      animation: fadeInUp 1s ease;
+    }
+
+    /* Tenses Section */
+    .section {
+      padding: 2rem 0;
+    }
+
+    .tenses-categories {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .tense-category {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .tense-category:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-header {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .category-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .tense-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    .tense-card {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+    }
+
+    .tense-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      padding: 1.2rem;
+      background: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card-header:hover {
+      background: #91d3ee;
+    }
+
+    .card-header h3 {
+      font-size: 1.1rem;
+      color: var(--dark);
+    }
+
+    .card-header i {
+      transition: transform 0.3s ease;
+    }
+
+    .card-header.active i {
+      transform: rotate(180deg);
+    }
+
+    .card-body {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .card-body.show {
+      padding: 1.2rem;
+      max-height: 1000px;
+    }
+
+    .tense-definition {
+      margin-bottom: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .definition-tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 0.5rem 0;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .tense-structure, .tense-examples {
+      margin-bottom: 1rem;
+    }
+
+    .tense-structure h4, .tense-examples h4 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .tense-structure ul, .tense-examples ul {
+      color: #555;
+      padding-left: 1.5rem;
+    }
+
+    .tense-structure li, .tense-examples li {
+      margin-bottom: 0.3rem;
+    }
+
+    strong {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .cta-content {
+      background: rgb(255, 255, 255);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-content p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: 2rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .tense-cards {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .tense-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 3rem 0;
+      }
+    }
+
+    /* Tense Category Colors */
+    .tense-category:nth-child(1) .category-header {
+      background: linear-gradient(135deg, var(--present), #4895ef);
+    }
+
+    .tense-category:nth-child(2) .category-header {
+      background: linear-gradient(135deg, var(--past), #f72585);
+    }
+
+    .tense-category:nth-child(3) .category-header {
+      background: linear-gradient(135deg, var(--future), #b5179e);
+    }
+
+    /* Backdrop for mobile menu */
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+    }
+
+    .backdrop.active {
+      display: block;
+    }
+
+/* Animated Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--bg);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.4s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 0.8rem 2rem;
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-img {
+      height: 30px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    /* Animated Nav Links */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-link i {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover i {
+      transform: scale(1.2);
+    }
+
+    /* Mobile Menu with Animation */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: transform 0.3s ease;
+    }
+
+    .hamburger.active {
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 280px;
+      height: 100%;
+      background-color: var(--bg);
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+    }
+
+    .mobile-nav.active {
+      left: 0;
+    }
+
+    .mobile-link {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      transform: translateX(20px);
+      opacity: 0;
+    }
+
+    .mobile-nav.active .mobile-link {
+      transform: translateX(0);
+      opacity: 1;
+      transition-delay: calc(0.1s * var(--i));
+    }
+
+    .mobile-link:hover {
+      background-color: rgba(74, 107, 255, 0.1);
+      color: var(--primary);
+    }
+
+    .mobile-link i {
+      font-size: 1.3rem;
+      width: 25px;
+      text-align: center;
+    }
+
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+
+    .backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .logo-text {
+        display: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="nav-container">
+        <a href="index.html" class="logo">
+          <img src="logo.png" alt="E.RECALLER Logo" class="logo-icon">
+          E.RECALLER
+        </a>
+        
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+          </a>
+          <a href="lessons.html" class="nav-link">
+            <i class="fas fa-book-open"></i>
+            Lessons
+          </a>
+          <a href="help.html" class="nav-link">
+            <i class="fas fa-question-circle"></i>
+             Help
+          </a>
+        </nav>
+        
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="backdrop"></div>
+  <nav class="mobile-nav">
+    <div class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">
+        <i class="fas fa-home mobile-nav-icon"></i>
+        Help
+      </a>
+    <a href="lessons.html" class="mobile-nav-link">
+      <i class="fas fa-book-open mobile-nav-icon"></i> Lessons
+    </a>
+      <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Tenses Hero -->
+    <section class="hero tenses-hero">
+      <div class="container">
+        <h1 class="hero-title">English Tenses Mastery</h1>
+        <p class="hero-subtitle">Learn and practice all English verb tenses</p>
+      </div>
+    </section>
+
+    <!-- Tenses Content -->
+    <section class="section">
+      <div class="container">
+        <div class="tenses-categories">
+          <!-- Present Tenses -->
+          <div class="tense-category">
+            <div class="category-header">
+              <h2><i class="fas fa-calendar-day"></i> Present Tenses</h2>
+            </div>
+            
+            <div class="tense-cards">
+              <!-- Simple Present -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Simple Present Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'simple-present-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'simple-present-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'simple-present-tamil')">Tamil</button>
+                    </div>
+                    <div id="simple-present-english" class="tab-content active">
+                      <p>Simple Present Tense is used for things that happen every day, things that are always true, or actions that happen regularly.</p>
+                    </div>
+                    <div id="simple-present-sinhala" class="tab-content">
+                      <p>Simple Present Tense කියන්නේ දිනපතා, නිතරම, හෝ සාමාන්‍යයෙන් සිදුවන ක්‍රියා විස්තර කරන්න යොදාගන්න ක්‍රියාවක්.</p>
+                    </div>
+                    <div id="simple-present-tamil" class="tab-content">
+                      <p>Simple Present Tense என்பது தினசரி நடக்கும், பழக்கம், அல்லது உண்மை விஷயங்களை சொல்வதற்காக பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>Singular Subject</strong> + Verb (Base form) + s/es + Object</li>
+                      <li><strong>Plural Subject</strong> + Verb (Base form) + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>Singular: She goes to school.</li>
+                      <li>Singular: He buys groceries.</li>
+                      <li>Plural: They go to school.</li>
+                      <li>Plural: You like to cook.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Present Continuous -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Present Continuous Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'present-cont-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'present-cont-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'present-cont-tamil')">Tamil</button>
+                    </div>
+                    <div id="present-cont-english" class="tab-content active">
+                      <p>Present Continuous Tense is used for actions happening now or temporary situations.</p>
+                    </div>
+                    <div id="present-cont-sinhala" class="tab-content">
+                      <p>Present Continuous Tense කියන්නේ දැනට සිදුවෙමින් පවතින ක්‍රියා හෝ තාවකාලික තත්වයන් විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="present-cont-tamil" class="tab-content">
+                      <p>Present Continuous Tense என்பது இப்போது நடக்கும் செயல்கள் அல்லது தற்காலிக சூழ்நிலைகளுக்கு பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>Singular Subject</strong> + is + Verb (Base form) + ing + Object</li>
+                      <li><strong>Plural Subject</strong> + are + Verb (Base form) + ing + Object</li>
+                      <li><strong>Subject I</strong> + am + Verb (Base form) + ing + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>Singular: She is studying right now.</li>
+                      <li>Plural: They are playing football.</li>
+                      <li>I: I am reading a book.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Present Perfect -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Present Perfect Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'present-perfect-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'present-perfect-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'present-perfect-tamil')">Tamil</button>
+                    </div>
+                    <div id="present-perfect-english" class="tab-content active">
+                      <p>Present Perfect Tense is used for completed actions with present relevance or experiences.</p>
+                    </div>
+                    <div id="present-perfect-sinhala" class="tab-content">
+                      <p>Present Perfect Tense කියන්නේ අවසන් වූ ක්‍රියා වර්තමානය සමඟ සම්බන්ධතාවයක් ඇති විට හෝ අත්දැකීම් විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="present-perfect-tamil" class="tab-content">
+                      <p>Present Perfect Tense என்பது முடிந்த செயல்கள் ஆனால் தற்போதைய முக்கியத்துவம் கொண்டவை அல்லது அனுபவங்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>Singular Subject</strong> + has + Verb (Past participle) + Object</li>
+                      <li><strong>Plural Subject</strong> + have + Verb (Past participle) + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>Singular: She has finished her work.</li>
+                      <li>Plural: They have visited London.</li>
+                      <li>Plural: We have seen that movie.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Present Perfect Continuous -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Present Perfect Continuous Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'present-perf-cont-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'present-perf-cont-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'present-perf-cont-tamil')">Tamil</button>
+                    </div>
+                    <div id="present-perf-cont-english" class="tab-content active">
+                      <p>Present Perfect Continuous Tense is used for ongoing actions that started in the past and continue to the present.</p>
+                    </div>
+                    <div id="present-perf-cont-sinhala" class="tab-content">
+                      <p>Present Perfect Continuous Tense කියන්නේ අතීතයේ ආරම්භ වූ ක්‍රියා වර්තමානය දක්වා පවතින අවස්ථා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="present-perf-cont-tamil" class="tab-content">
+                      <p>Present Perfect Continuous Tense என்பது கடந்த காலத்தில் தொடங்கி தற்போது வரை தொடரும் செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>Singular Subject</strong> + has been + Verb (Base form) + ing + Object</li>
+                      <li><strong>Plural Subject</strong> + have been + Verb (Base form) + ing + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>Singular: She has been working here for 5 years.</li>
+                      <li>Plural: They have been waiting since morning.</li>
+                      <li>Plural: We have been studying for the exam.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Past Tenses -->
+          <div class="tense-category">
+            <div class="category-header">
+              <h2><i class="fas fa-calendar-week"></i> Past Tenses</h2>
+            </div>
+            
+            <div class="tense-cards">
+              <!-- Simple Past -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Simple Past Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'past-simple-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-simple-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-simple-tamil')">Tamil</button>
+                    </div>
+                    <div id="past-simple-english" class="tab-content active">
+                      <p>Simple Past Tense is used for completed actions in the past at a specific time.</p>
+                    </div>
+                    <div id="past-simple-sinhala" class="tab-content">
+                      <p>Simple Past Tense කියන්නේ නිශ්චිත කාලයක අතීතයේ සිදු වූ ක්‍රියා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="past-simple-tamil" class="tab-content">
+                      <p>Simple Past Tense என்பது குறிப்பிட்ட நேரத்தில் முடிந்த செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>All Subjects</strong> + Verb (Past form) + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>She went to school yesterday.</li>
+                      <li>They played football last week.</li>
+                      <li>I finished my homework.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Past Continuous -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Past Continuous Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'past-cont-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-cont-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-cont-tamil')">Tamil</button>
+                    </div>
+                    <div id="past-cont-english" class="tab-content active">
+                      <p>Past Continuous Tense is used for actions in progress at a specific past time or interrupted actions.</p>
+                    </div>
+                    <div id="past-cont-sinhala" class="tab-content">
+                      <p>Past Continuous Tense කියන්නේ නිශ්චිත අතීත කාලයක සිදුවෙමින් පැවති ක්‍රියා හෝ අඛණ්ඩව සිදුවූ ක්‍රියා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="past-cont-tamil" class="tab-content">
+                      <p>Past Continuous Tense என்பது குறிப்பிட்ட காலத்தில் நடந்து கொண்டிருந்த செயல்கள் அல்லது தடைப்பட்ட செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>Singular Subject</strong> + was + Verb (Base form) + ing + Object</li>
+                      <li><strong>Plural Subject</strong> + were + Verb (Base form) + ing + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>Singular: She was reading at 8pm.</li>
+                      <li>Plural: They were playing when I arrived.</li>
+                      <li>Plural: We were studying all night.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Past Perfect -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Past Perfect Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'past-perfect-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-perfect-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-perfect-tamil')">Tamil</button>
+                    </div>
+                    <div id="past-perfect-english" class="tab-content active">
+                      <p>Past Perfect Tense is used for actions completed before another past action.</p>
+                    </div>
+                    <div id="past-perfect-sinhala" class="tab-content">
+                      <p>Past Perfect Tense කියන්නේ අතීතයේ එක් ක්‍රියාවක් තවත් ක්‍රියාවකට පෙර සිදු වූ අවස්ථා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="past-perfect-tamil" class="tab-content">
+                      <p>Past Perfect Tense என்பது ஒரு செயல் மற்றொரு கடந்த கால செயலுக்கு முன் நடந்தது என்பதை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>All Subjects</strong> + had + Verb (Past participle) + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>She had left before I arrived.</li>
+                      <li>They had finished dinner by 8pm.</li>
+                      <li>We had seen the movie before.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Past Perfect Continuous -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Past Perfect Continuous Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'past-perf-cont-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-perf-cont-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'past-perf-cont-tamil')">Tamil</button>
+                    </div>
+                    <div id="past-perf-cont-english" class="tab-content active">
+                      <p>Past Perfect Continuous Tense is used for duration before something in the past.</p>
+                    </div>
+                    <div id="past-perf-cont-sinhala" class="tab-content">
+                      <p>Past Perfect Continuous Tense කියන්නේ අතීතයේ යම් සිදුවීමකට පෙර කාලයක් පුරා පැවති ක්‍රියා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="past-perf-cont-tamil" class="tab-content">
+                      <p>Past Perfect Continuous Tense என்பது கடந்த காலத்தில் ஒரு குறிப்பிட்ட நேரத்திற்கு முன் தொடர்ந்து நடந்து கொண்டிருந்த செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>All Subjects</strong> + had been + Verb (Base form) + ing + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>I had been working for 3 hours.</li>
+                      <li>They had been waiting since morning.</li>
+                      <li>She had been studying all day.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Future Tenses -->
+          <div class="tense-category">
+            <div class="category-header">
+              <h2><i class="fas fa-calendar-plus"></i> Future Tenses</h2>
+            </div>
+            
+            <div class="tense-cards">
+              <!-- Simple Future -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Simple Future Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'future-simple-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-simple-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-simple-tamil')">Tamil</button>
+                    </div>
+                    <div id="future-simple-english" class="tab-content active">
+                      <p>Simple Future Tense is used for actions that will happen in the future.</p>
+                    </div>
+                    <div id="future-simple-sinhala" class="tab-content">
+                      <p>Simple Future Tense කියන්නේ අනාගතයේ සිදුවන ක්‍රියා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="future-simple-tamil" class="tab-content">
+                      <p>Simple Future Tense என்பது எதிர்காலத்தில் நடக்க இருக்கும் செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>All Subjects</strong> + will + Verb (Base form) + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>I will call you tomorrow.</li>
+                      <li>They will arrive at 8pm.</li>
+                      <li>She will finish her project.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Future Continuous -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Future Continuous Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'future-cont-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-cont-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-cont-tamil')">Tamil</button>
+                    </div>
+                    <div id="future-cont-english" class="tab-content active">
+                      <p>Future Continuous Tense is used for actions in progress at a specific future time.</p>
+                    </div>
+                    <div id="future-cont-sinhala" class="tab-content">
+                      <p>Future Continuous Tense කියන්නේ නිශ්චිත අනාගත කාලයක සිදුවෙමින් පවතින ක්‍රියා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="future-cont-tamil" class="tab-content">
+                      <p>Future Continuous Tense என்பது எதிர்காலத்தில் ஒரு குறிப்பிட்ட நேரத்தில் நடந்து கொண்டிருக்கும் செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>All Subjects</strong> + will be + Verb (Base form) + ing + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>I will be flying to London this time tomorrow.</li>
+                      <li>They will be having dinner at 8pm.</li>
+                      <li>She will be working all day.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Future Perfect -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Future Perfect Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'future-perfect-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-perfect-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-perfect-tamil')">Tamil</button>
+                    </div>
+                    <div id="future-perfect-english" class="tab-content active">
+                      <p>Future Perfect Tense is used for actions completed before a specific future time.</p>
+                    </div>
+                    <div id="future-perfect-sinhala" class="tab-content">
+                      <p>Future Perfect Tense කියන්නේ නිශ්චිත අනාගත කාලයකට පෙර අවසන් වන ක්‍රියා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="future-perfect-tamil" class="tab-content">
+                      <p>Future Perfect Tense என்பது எதிர்காலத்தில் ஒரு குறிப்பிட்ட நேரத்திற்கு முன் முடிந்திருக்கும் செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>All Subjects</strong> + will have + Verb (Past participle) + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>By 2025, I will have graduated.</li>
+                      <li>They will have finished by 5pm.</li>
+                      <li>She will have completed the project.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Future Perfect Continuous -->
+              <div class="tense-card">
+                <div class="card-header" onclick="toggleTense(this)">
+                  <h3>Future Perfect Continuous Tense</h3>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="card-body">
+                  <div class="tense-definition">
+                    <div class="definition-tabs">
+                      <button class="tab-btn active" onclick="openTab(event, 'future-perf-cont-english')">English</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-perf-cont-sinhala')">Sinhala</button>
+                      <button class="tab-btn" onclick="openTab(event, 'future-perf-cont-tamil')">Tamil</button>
+                    </div>
+                    <div id="future-perf-cont-english" class="tab-content active">
+                      <p>Future Perfect Continuous Tense is used for duration before something in the future.</p>
+                    </div>
+                    <div id="future-perf-cont-sinhala" class="tab-content">
+                      <p>Future Perfect Continuous Tense කියන්නේ අනාගතයේ යම් සිදුවීමකට පෙර කාලයක් පුරා පැවති ක්‍රියා විස්තර කිරීමට භාවිතා කරයි.</p>
+                    </div>
+                    <div id="future-perf-cont-tamil" class="tab-content">
+                      <p>Future Perfect Continuous Tense என்பது எதிர்காலத்தில் ஒரு குறிப்பிட்ட நேரத்திற்கு முன் தொடர்ந்து நடந்து கொண்டிருக்கும் செயல்களை வெளிப்படுத்த பயன்படுகிறது.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="tense-structure">
+                    <h4><i class="fas fa-code"></i> Structure</h4>
+                    <ul>
+                      <li><strong>All Subjects</strong> + will have been + Verb (Base form) + ing + Object</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="tense-examples">
+                    <h4><i class="fas fa-lightbulb"></i> Examples</h4>
+                    <ul>
+                      <li>By 2025, I will have been working here for 5 years.</li>
+                      <li>They will have been traveling for 3 months.</li>
+                      <li>She will have been studying all night.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <p>If you are ready with the tenses click the button to go to activities.</p>
+          <a href="activities.html" class="cta-button">
+            <i class="fas fa-arrow-right"></i> Go to Activities
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2023 E.RECALLER. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const backdrop = document.querySelector('.backdrop');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileNav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    });
+
+    backdrop.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      backdrop.classList.remove('active');
+    });
+
+    // Tense card toggle
+    function toggleTense(header) {
+      const cardBody = header.nextElementSibling;
+      header.classList.toggle('active');
+      cardBody.classList.toggle('show');
+    }
+
+    // Tab functionality
+    function openTab(evt, tabName) {
+      const tabContents = document.getElementsByClassName("tab-content");
+      const tabButtons = document.getElementsByClassName("tab-btn");
+      
+      // Hide all tab contents
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
+      
+      // Remove active class from all buttons
+      for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove("active");
+      }
+      
+      // Show the current tab and mark button as active
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+
+    // Initialize first card as open
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstCardHeader = document.querySelector('.card-header');
+      if (firstCardHeader) {
+        toggleTense(firstCardHeader);
+      }
+      
+      // Set all English tabs as active by default
+      const englishTabs = document.querySelectorAll('[id$="-english"]');
+      englishTabs.forEach(tab => {
+        if (tab.closest('.card-body.show') || tab.closest('.card-body:not(.show)')) {
+          tab.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

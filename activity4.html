@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentence Arrangement Practice - E.RECALLER</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #8a2be2;
+            --text: #333;
+            --light-bg: #f9f9f9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --overlay: rgba(0, 0, 0, 0.5);
+            --correct: #4CAF50;
+            --incorrect: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light-bg);
+            padding-top: 0px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgb(255, 255, 255);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+            opacity: 0.1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .header p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #555;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: var(--primary);
+        }
+
+        .tab-button.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 8px rgba(74, 107, 255, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: var(--light-bg);
+            position: relative;
+        }
+
+        .question-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .question {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            min-height: 60px;
+            border: 1px solid #ddd;
+        }
+
+        .answer-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            min-height: 60px;
+            margin-bottom: 1rem;
+            border: 2px dashed #ccc;
+        }
+
+        .word {
+            background-color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .word:hover {
+            background-color: rgba(74, 107, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .word.selected {
+            background-color: rgba(74, 107, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        .word.correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-color: var(--correct);
+            color: var(--correct);
+            animation: correctAnswer 0.5s ease;
+        }
+
+        .word.incorrect {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-color: var(--incorrect);
+            color: var(--incorrect);
+        }
+
+        .feedback {
+            padding: 0.75rem;
+            border-radius: 6px;
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .feedback.correct {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--correct);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--incorrect);
+            display: block;
+        }
+
+        .feedback i {
+            margin-right: 0.5rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .check-btn:hover {
+            background-color: #3a5bed;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+
+        .reset-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .skill-level {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 1rem 0;
+            height: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .celebration.active {
+            opacity: 1;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            opacity: 0;
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .tab-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .question-container {
+                padding: 1rem;
+            }
+            
+            .question {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+            <div class="logo-text">E.RECALLER</div>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="lessons.html" class="nav-link"><i class="fas fa-book-open"></i> Lessons</a>
+            <a href="activities.html" class="nav-link"><i class="fas fa-tasks"></i> Activities</a>
+            <a href="feedback.html" class="nav-link"><i class="fas fa-clipboard-list"></i> Feedback</a>
+            <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+        </nav>
+        
+        <button class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="backdrop" id="backdrop"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html" class="mobile-nav-link">
+            <i class="fas fa-home mobile-nav-icon"></i> Home
+        </a>
+        <a href="lessons.html" class="mobile-nav-link">
+            <i class="fas fa-book-open mobile-nav-icon"></i> Lessons
+        </a>
+        <a href="activities.html" class="mobile-nav-link">
+            <i class="fas fa-tasks mobile-nav-icon"></i> Activities
+        </a>
+        <a href="feedback.html" class="mobile-nav-link">
+            <i class="fas fa-clipboard-list mobile-nav-icon"></i> Feedback
+        </a>
+        <a href="help.html" class="mobile-nav-link">
+            <i class="fas fa-question-circle mobile-nav-icon"></i> Help
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Sentence Arrangement Practice</h1>
+            <p><i class="fas fa-info-circle"></i> Arrange the words to form correct sentences in different tenses.</p>
+        </div>
+
+        <div class="tabs" id="tenseTabs">
+            <!-- Tabs will be generated by JavaScript -->
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="score-display">
+            <i class="fas fa-star"></i> Score: <span id="scorePercentage">0</span>% (<span id="score">0</span>/<span id="totalQuestions">0</span>)
+        </div>
+        
+        <div class="skill-level" id="skillLevel">
+            Your level: Beginner
+        </div>
+
+        <div id="tabContents">
+            <!-- Tab contents will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+    
+
+    <script>
+        // Navbar mobile toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const backdrop = document.getElementById('backdrop');
+
+        hamburger.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            backdrop.classList.toggle('active');
+        });
+
+        backdrop.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            backdrop.classList.remove('active');
+        });
+
+        // Question data
+        const tensesData = {
+                "Simple Present": [
+                { words: ["plays", "every day", "football", "He"], answer: "He plays football every day." },
+                { words: ["eat", "They", "breakfast", "together"], answer: "They eat breakfast together." },
+                { words: ["walks", "morning", "She", "in", "the"], answer: "She walks in the morning." },
+                { words: ["go", "school", "I", "to"], answer: "I go to school." },
+                { words: ["sings", "bird", "The", "nicely"], answer: "The bird sings nicely." },
+                { words: ["writes", "She", "well", "very"], answer: "She writes very well." },
+                { words: ["The", "at", "barks", "dog", "night"], answer: "The dog barks at night." },
+                { words: ["every", "reads", "He", "night", "book", "a"], answer: "He reads a book every night." },
+                { words: ["tea", "drinks", "morning", "My", "every", "mother"], answer: "My mother drinks tea every morning." },
+                { words: ["clean", "the", "I", "room"], answer: "I clean the room." }
+            ],
+            "Present Continuous": [
+                { words: ["reading", "I", "book", "a", "am"], answer: "I am reading a book." },
+                { words: ["She", "is", "now", "dancing"], answer: "She is dancing now." },
+                { words: ["are", "They", "playing", "outside"], answer: "They are playing outside." },
+                { words: ["watching", "TV", "We", "are"], answer: "We are watching TV." },
+                { words: ["cooking", "is", "mother", "My", "dinner"], answer: "My mother is cooking dinner." },
+                { words: ["are", "talking", "friends", "Her"], answer: "Her friends are talking." },
+                { words: ["am", "the", "I", "cleaning", "room"], answer: "I am cleaning the room." },
+                { words: ["is", "running", "He", "fast"], answer: "He is running fast." },
+                { words: ["you", "listening", "me", "Are", "to"], answer: "Are you listening to me?" },
+                { words: ["crying", "baby", "is", "The"], answer: "The baby is crying." }
+            ],
+            "Present Perfect": [
+                { words: ["eaten", "breakfast", "have", "I"], answer: "I have eaten breakfast." },
+                { words: ["has", "She", "gone", "already"], answer: "She has gone already." },
+                { words: ["They", "the", "finished", "have", "work"], answer: "They have finished the work." },
+                { words: ["read", "I", "have", "book", "this"], answer: "I have read this book." },
+                { words: ["arrived", "just", "has", "He"], answer: "He has just arrived." },
+                { words: ["We", "visited", "have", "many", "places"], answer: "We have visited many places." },
+                { words: ["has", "the", "cleaned", "room", "She"], answer: "She has cleaned the room." },
+                { words: ["met", "I", "her", "before", "have"], answer: "I have met her before." },
+                { words: ["They", "not", "started", "yet", "have"], answer: "They have not started yet." },
+                { words: ["has", "He", "homework", "done", "his"], answer: "He has done his homework." }
+            ],
+            "Present Perfect Continuous": [
+                { words: ["been", "reading", "I", "have", "all", "night"], answer: "I have been reading all night." },
+                { words: ["has", "She", "since", "been", "morning", "working"], answer: "She has been working since morning." },
+                { words: ["raining", "been", "has", "It"], answer: "It has been raining." },
+                { words: ["They", "waiting", "have", "been", "for", "long"], answer: "They have been waiting for long." },
+                { words: ["talking", "been", "have", "you", "Have"], answer: "Have you been talking?" },
+                { words: ["been", "playing", "all", "has", "day", "He"], answer: "He has been playing all day." },
+                { words: ["working", "We", "on", "project", "have", "been", "the"], answer: "We have been working on the project." },
+                { words: ["have", "studying", "been", "I", "hard"], answer: "I have been studying hard." },
+                { words: ["been", "sleeping", "has", "afternoon", "all", "She"], answer: "She has been sleeping all afternoon." },
+                { words: ["been", "waiting", "bus", "for", "The", "has"], answer: "The bus has been waiting." }
+            ],
+            "Simple Past": [
+            { words: ["went", "to", "He", "school"], answer: "He went to school." },
+            { words: ["played", "They", "yesterday", "football"], answer: "They played football yesterday." },
+            { words: ["She", "cake", "baked", "a"], answer: "She baked a cake." },
+            { words: ["visited", "We", "last week", "the zoo"], answer: "We visited the zoo last week." },
+            { words: ["the", "won", "team", "Our", "match", "the"], answer: "Our team won the match." },
+            { words: ["watched", "movie", "I", "a"], answer: "I watched a movie." },
+            { words: ["He", "called", "me", "night", "last"], answer: "He called me last night." },
+            { words: ["They", "the", "cleaned", "garden"], answer: "They cleaned the garden." },
+            { words: ["She", "letter", "a", "wrote"], answer: "She wrote a letter." },
+            { words: ["rained", "It", "yesterday"], answer: "It rained yesterday." }
+            ],
+            "Past Continuous": [
+                { words: ["was", "I", "reading", "a", "book"], answer: "I was reading a book." },
+                { words: ["They", "were", "dancing", "yesterday"], answer: "They were dancing yesterday." },
+                { words: ["She", "at", "was", "6pm", "studying"], answer: "She was studying at 6pm." },
+                { words: ["were", "We", "TV", "watching"], answer: "We were watching TV." },
+                { words: ["playing", "He", "not", "was"], answer: "He was not playing." },
+                { words: ["was", "She", "waiting", "for", "you"], answer: "She was waiting for you." },
+                { words: ["They", "laughing", "were", "together"], answer: "They were laughing together." },
+                { words: ["It", "was", "raining", "outside"], answer: "It was raining outside." },
+                { words: ["I", "when", "arrived", "was", "He", "leaving"], answer: "He was leaving when I arrived." },
+                { words: ["cooking", "We", "dinner", "were"], answer: "We were cooking dinner." }
+            ],
+            "Past Perfect": [
+                { words: ["I", "arrived", "had", "before", "they"], answer: "I had arrived before they did." },
+                { words: ["She", "left", "had", "already"], answer: "She had already left." },
+                { words: ["They", "had", "the", "finished", "task"], answer: "They had finished the task." },
+                { words: ["had", "met", "before", "We"], answer: "We had met before." },
+                { words: ["He", "the", "had", "closed", "door"], answer: "He had closed the door." },
+                { words: ["called", "I", "had", "you", "before"], answer: "I had called you before." },
+                { words: ["She", "had", "her", "homework", "done"], answer: "She had done her homework." },
+                { words: ["already", "They", "left", "had"], answer: "They had already left." },
+                { words: ["We", "had", "the", "seen", "movie"], answer: "We had seen the movie." },
+                { words: ["read", "had", "I", "book", "that"], answer: "I had read that book." }
+            ],
+            "Past Perfect Continuous": [
+                { words: ["had", "been", "He", "sleeping", "long", "for"], answer: "He had been sleeping for long." },
+                { words: ["They", "for", "waiting", "had", "been", "hours"], answer: "They had been waiting for hours." },
+                { words: ["had", "been", "She", "since", "morning", "working"], answer: "She had been working since morning." },
+                { words: ["I", "studying", "been", "had", "all", "night"], answer: "I had been studying all night." },
+                { words: ["raining", "It", "had", "been"], answer: "It had been raining." },
+                { words: ["We", "had", "been", "on", "talking", "the", "phone"], answer: "We had been talking on the phone." },
+                { words: ["crying", "been", "had", "She"], answer: "She had been crying." },
+                { words: ["working", "hard", "had", "They", "been"], answer: "They had been working hard." },
+                { words: ["been", "had", "He", "practicing", "daily"], answer: "He had been practicing daily." },
+                { words: ["You", "been", "joking", "had"], answer: "You had been joking." }
+            ],
+            "Simple Future": [
+                { words: ["will", "go", "I", "tomorrow"], answer: "I will go tomorrow." },
+                { words: ["He", "call", "will", "you"], answer: "He will call you." },
+                { words: ["She", "a", "will", "bake", "cake"], answer: "She will bake a cake." },
+                { words: ["We", "help", "will", "you"], answer: "We will help you." },
+                { words: ["They", "will", "visit", "next week", "us"], answer: "They will visit us next week." },
+                { words: ["rain", "It", "will"], answer: "It will rain." },
+                { words: ["will", "read", "I", "book", "this"], answer: "I will read this book." },
+                { words: ["party", "come", "to", "the", "He", "will"], answer: "He will come to the party." },
+                { words: ["will", "She", "her", "complete", "project"], answer: "She will complete her project." },
+                { words: ["buy", "I", "new", "will", "a", "phone"], answer: "I will buy a new phone." }
+            ],
+            "Future Continuous": [
+                { words: ["will", "be", "I", "sleeping", "at", "10pm"], answer: "I will be sleeping at 10pm." },
+                { words: ["She", "be", "dancing", "will", "tomorrow"], answer: "She will be dancing tomorrow." },
+                { words: ["They", "be", "will", "TV", "watching"], answer: "They will be watching TV." },
+                { words: ["We", "will", "be", "playing", "football"], answer: "We will be playing football." },
+                { words: ["He", "working", "be", "will", "late"], answer: "He will be working late." },
+                { words: ["reading", "She", "will", "book", "be", "a"], answer: "She will be reading a book." },
+                { words: ["will", "I", "be", "studying", "then"], answer: "I will be studying then." },
+                { words: ["be", "They", "will", "travelling", "soon"], answer: "They will be travelling soon." },
+                { words: ["He", "be", "will", "waiting", "you", "for"], answer: "He will be waiting for you." },
+                { words: ["be", "will", "She", "calling", "me"], answer: "She will be calling me." }
+            ],
+            "Future Perfect": [
+                { words: ["I", "will", "have", "finished", "the", "work"], answer: "I will have finished the work." },
+                { words: ["She", "left", "will", "have", "already"], answer: "She will have already left." },
+                { words: ["They", "have", "will", "completed", "project", "the"], answer: "They will have completed the project." },
+                { words: ["He", "homework", "done", "his", "will", "have"], answer: "He will have done his homework." },
+                { words: ["We", "will", "have", "reached", "by", "then"], answer: "We will have reached by then." },
+                { words: ["have", "She", "her", "will", "prepared", "report"], answer: "She will have prepared her report." },
+                { words: ["I", "finished", "the", "will", "have", "exam"], answer: "I will have finished the exam." },
+                { words: ["They", "will", "have", "arrived", "by", "noon"], answer: "They will have arrived by noon." },
+                { words: ["He", "will", "have", "cleaned", "the", "room"], answer: "He will have cleaned the room." },
+                { words: ["The", "will", "have", "bus", "left"], answer: "The bus will have left." }
+            ],
+            "Future Perfect Continuous": [
+                { words: ["will", "have", "been", "working", "He", "for", "hours"], answer: "He will have been working for hours." },
+                { words: ["been", "They", "have", "will", "waiting", "since", "morning"], answer: "They will have been waiting since morning." },
+                { words: ["She", "will", "been", "have", "reading", "a", "book"], answer: "She will have been reading a book." },
+                { words: ["I", "been", "will", "have", "sleeping", "long", "for"], answer: "I will have been sleeping for long." },
+                { words: ["We", "will", "have", "been", "traveling", "for", "days"], answer: "We will have been traveling for days." },
+                { words: ["have", "You", "been", "will", "studying"], answer: "You will have been studying." },
+                { words: ["They", "have", "been", "will", "arguing", "for", "hours"], answer: "They will have been arguing for hours." },
+                { words: ["He", "will", "have", "been", "waiting", "there"], answer: "He will have been waiting there." },
+                { words: ["She", "will", "have", "been", "working", "all", "day"], answer: "She will have been working all day." },
+                { words: ["I", "will", "been", "have", "living", "here"], answer: "I will have been living here." }
+            ]
+            }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            const tenseTabs = document.getElementById('tenseTabs');
+            const tabContents = document.getElementById('tabContents');
+            const totalQuestionsElement = document.getElementById('totalQuestions');
+            
+            // Create tabs and content for each tense
+            Object.keys(tensesData).forEach((tense, index) => {
+                // Create tab button
+                const tabButton = document.createElement('button');
+                tabButton.className = 'tab-button' + (index === 0 ? ' active' : '');
+                tabButton.textContent = tense;
+                tabButton.dataset.tense = tense;
+                tabButton.addEventListener('click', switchTab);
+                tenseTabs.appendChild(tabButton);
+                
+                // Create tab content
+                const tabContent = document.createElement('div');
+                tabContent.className = 'tab-content' + (index === 0 ? ' active' : '');
+                tabContent.id = tense.replace(/\s+/g, '-') + '-content';
+                tabContents.appendChild(tabContent);
+                
+                // Add questions to the tab content
+                const questions = tensesData[tense];
+                questions.forEach((q, qIndex) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-container';
+                    questionDiv.dataset.questionIndex = qIndex;
+                    
+                    const questionNumber = document.createElement('div');
+                    questionNumber.className = 'question-number';
+                    questionNumber.textContent = qIndex + 1;
+                    
+                    const questionText = document.createElement('div');
+                    questionText.className = 'question';
+                    questionText.innerHTML = `Arrange these words to form a correct <b>${tense}</b> sentence:`;
+                    
+                    const wordBank = document.createElement('div');
+                    wordBank.className = 'word-bank';
+                    
+                    const answerArea = document.createElement('div');
+                    answerArea.className = 'answer-area';
+                    
+                    // Shuffle words for this question
+                    const shuffledWords = [...q.words].sort(() => Math.random() - 0.5);
+                    
+                    shuffledWords.forEach(word => {
+                        const wordElement = document.createElement('div');
+                        wordElement.className = 'word';
+                        wordElement.textContent = word;
+                        wordElement.addEventListener('click', () => {
+                            if (!questionDiv.dataset.answered) {
+                                if (wordElement.parentElement === wordBank) {
+                                    // Move to answer area
+                                    answerArea.appendChild(wordElement);
+                                } else {
+                                    // Move back to word bank
+                                    wordBank.appendChild(wordElement);
+                                }
+                            }
+                        });
+                        wordBank.appendChild(wordElement);
+                    });
+                    
+                    const feedbackDiv = document.createElement('div');
+                    feedbackDiv.className = 'feedback';
+                    
+                    const buttonsDiv = document.createElement('div');
+                    buttonsDiv.className = 'buttons';
+                    
+                    const checkBtn = document.createElement('button');
+                    checkBtn.className = 'check-btn';
+                    checkBtn.textContent = 'Check Answer';
+                    checkBtn.addEventListener('click', () => {
+                        if (!questionDiv.dataset.answered) {
+                            const userAnswer = Array.from(answerArea.children)
+                                .map(el => el.textContent)
+                                .join(' ')
+                                .trim();
+                            
+                            const formattedAnswer = userAnswer.charAt(0).toUpperCase() + 
+                                userAnswer.slice(1) + 
+                                (userAnswer.endsWith('.') ? '' : '.');
+                            
+                            if (formattedAnswer === q.answer) {
+                                feedbackDiv.className = 'feedback correct';
+                                feedbackDiv.innerHTML = '<i class="fas fa-check-circle"></i> Correct! Well done!';
+                                
+                                // Add animation to words
+                                Array.from(answerArea.children).forEach(word => {
+                                    word.classList.add('correct');
+                                });
+                                
+                                // Update score
+                                const scoreElement = document.getElementById('score');
+                                let score = parseInt(scoreElement.textContent);
+                                score++;
+                                scoreElement.textContent = score;
+                                updateScoreDisplay();
+                                
+                                // Show celebration
+                                showCelebration();
+                            } else {
+                                feedbackDiv.className = 'feedback incorrect';
+                                feedbackDiv.innerHTML = `<i class="fas fa-times-circle"></i> Incorrect. The correct answer is: ${q.answer}`;
+                            }
+                            
+                            // Mark question as answered
+                            questionDiv.dataset.answered = 'true';
+                            
+                            // Disable further interaction
+                            Array.from(wordBank.children).forEach(word => {
+                                word.style.pointerEvents = 'none';
+                            });
+                            checkBtn.disabled = true;
+                        }
+                    });
+                    
+                    const resetBtn = document.createElement('button');
+                    resetBtn.className = 'reset-btn';
+                    resetBtn.textContent = 'Reset';
+                    resetBtn.addEventListener('click', () => {
+                        if (!questionDiv.dataset.answered) {
+                            // Move all words back to word bank
+                            while (answerArea.firstChild) {
+                                wordBank.appendChild(answerArea.firstChild);
+                            }
+                            feedbackDiv.className = 'feedback';
+                            feedbackDiv.innerHTML = '';
+                        }
+                    });
+                    
+                    buttonsDiv.appendChild(checkBtn);
+                    buttonsDiv.appendChild(resetBtn);
+                    
+                    questionDiv.appendChild(questionNumber);
+                    questionDiv.appendChild(questionText);
+                    questionDiv.appendChild(wordBank);
+                    questionDiv.appendChild(answerArea);
+                    questionDiv.appendChild(feedbackDiv);
+                    questionDiv.appendChild(buttonsDiv);
+                    tabContent.appendChild(questionDiv);
+                });
+            });
+            
+            // Set total questions count
+            let totalQuestions = 0;
+            Object.values(tensesData).forEach(questions => {
+                totalQuestions += questions.length;
+            });
+            totalQuestionsElement.textContent = totalQuestions;
+            
+            // Update progress bar and score display
+            updateScoreDisplay();
+        });
+        
+        function switchTab(e) {
+            const tense = e.target.dataset.tense;
+            const tenseId = tense.replace(/\s+/g, '-') + '-content';
+            
+            // Update active tab button
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            
+            // Update active tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tenseId).classList.add('active');
+        }
+        
+        function updateScoreDisplay() {
+            const score = parseInt(document.getElementById('score').textContent);
+            const totalQuestions = parseInt(document.getElementById('totalQuestions').textContent);
+            const progressPercentage = Math.round((score / totalQuestions) * 100);
+            
+            // Update percentage display
+            document.getElementById('scorePercentage').textContent = progressPercentage;
+            
+            // Update progress bar
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+            
+            // Update skill level
+            const skillLevelElement = document.getElementById('skillLevel');
+            let skillLevel = '';
+            
+            if (progressPercentage >= 80) {
+                skillLevel = 'Expert';
+            } else if (progressPercentage >= 60) {
+                skillLevel = 'Advanced';
+            } else if (progressPercentage >= 40) {
+                skillLevel = 'Intermediate';
+            } else if (progressPercentage >= 20) {
+                skillLevel = 'Basic';
+            } else {
+                skillLevel = 'Beginner';
+            }
+            
+            skillLevelElement.textContent = `Your level: ${skillLevel}`;
+        }
+        
+        function showCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.innerHTML = '';
+            celebration.classList.add('active');
+            
+            // Create confetti
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animation = `confettiFall ${3 + Math.random() * 4}s linear forwards`;
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                celebration.appendChild(confetti);
+            }
+            
+            // Hide after animation
+            setTimeout(() => {
+                celebration.classList.remove('active');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

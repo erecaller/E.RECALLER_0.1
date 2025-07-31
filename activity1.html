@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Tense Practice - E.RECALLER</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #8a2be2;
+            --text: #333;
+            --light-bg: #f9f9f9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --overlay: rgba(0, 0, 0, 0.5);
+            --correct: #4CAF50;
+            --incorrect: #F44336;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light-bg);
+            padding-top: 0px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgb(255, 255, 255);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+            opacity: 0.1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .header p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #555;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: var(--primary);
+        }
+
+        .tab-button.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 8px rgba(74, 107, 255, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: var(--light-bg);
+            position: relative;
+        }
+
+        .question-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .question {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .option {
+            padding: 0.8rem 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .option input {
+            margin-right: 0.5rem;
+        }
+
+        .option.correct {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-color: var(--correct);
+            color: var(--correct);
+        }
+
+        .option.incorrect {
+            background-color: rgba(244, 67, 54, 0.1);
+            border-color: var(--incorrect);
+            color: var(--incorrect);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .feedback.correct {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--correct);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--incorrect);
+            display: block;
+        }
+
+        .feedback i {
+            margin-right: 0.5rem;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .skill-level {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 1rem 0;
+            height: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .celebration.active {
+            opacity: 1;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            opacity: 0;
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .tab-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .question-container {
+                padding: 1rem;
+            }
+            
+            .question {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+            <div class="logo-text">E.RECALLER</div>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="lessons.html" class="nav-link"><i class="fas fa-book-open"></i> Lessons</a>
+            <a href="activities.html" class="nav-link"><i class="fas fa-tasks"></i> Activities</a>
+            <a href="feedback.html" class="nav-link"><i class="fas fa-clipboard-list"></i> Feedback</a>
+            <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+        </nav>
+        
+        <button class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="backdrop" id="backdrop"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html" class="mobile-nav-link">
+            <i class="fas fa-home mobile-nav-icon"></i> Home
+        </a>
+        <a href="lessons.html" class="mobile-nav-link">
+            <i class="fas fa-book-open mobile-nav-icon"></i> Lessons
+        </a>
+   <a href="activities.html" class="mobile-nav-link"><i class="fas fa-tasks mobile-nav-icon"></i> Activities</a>
+        <a href="feedback.html" class="mobile-nav-link">
+            <i class="fas fa-clipboard-list mobile-nav-icon"></i> Feedback
+        </a>
+        <a href="help.html" class="mobile-nav-link">
+            <i class="fas fa-question-circle mobile-nav-icon"></i> Help
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Tense MCQ Practice</h1>
+            <p><i class="fas fa-info-circle"></i> Test your knowledge of English tenses with these MCQ questions.</p>
+        </div>
+
+        <div class="tabs" id="tenseTabs">
+            <!-- Tabs will be generated by JavaScript -->
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="score-display">
+            <i class="fas fa-star"></i> Score: <span id="scorePercentage">0</span>% (<span id="score">0</span>/<span id="totalQuestions">0</span>)
+        </div>
+        
+        <div class="skill-level" id="skillLevel">
+            Your level: Beginner
+        </div>
+
+        <div id="tabContents">
+            <!-- Tab contents will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+    
+
+    <script>
+        // Navbar mobile toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const backdrop = document.getElementById('backdrop');
+
+        hamburger.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            backdrop.classList.toggle('active');
+        });
+
+        backdrop.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            backdrop.classList.remove('active');
+        });
+
+        // Question data
+        const tensesData = {
+        "Simple Present": [
+            { question: "She ___ to work at 9 a.m.", options: ["go", "gone", "going", "goes"], answer: 3 },
+            { question: "I ___ coffee in the morning.", options: ["drinking", "drink", "drank", "drinks"], answer: 1 },
+            { question: "The train ___ at 6 p.m. every day.", options: ["arrived", "arrives", "arriving", "arrive"], answer: 1 },
+            { question: "They always ___ football on weekends.", options: ["played", "play", "playing", "plays"], answer: 1 },
+            { question: "He ___ his homework after school.", options: ["doing", "do", "does", "did"], answer: 2 },
+            { question: "My dog ___ loudly at night.", options: ["barked", "barking", "bark", "barks"], answer: 3 },
+            { question: "We ___ our grandparents every Sunday.", options: ["visited", "visits", "visiting", "visit"], answer: 3 },
+            { question: "The sun ___ in the east.", options: ["rises", "rising", "rose", "rise"], answer: 0 },
+            { question: "I ___ tennis on Fridays.", options: ["played", "plays", "play", "playing"], answer: 2 },
+            { question: "My sister ___ very fast.", options: ["running", "ran", "runs", "run"], answer: 2 },
+            { question: "Children ___ cartoons every morning.", options: ["watched", "watch", "watches", "watching"], answer: 1 },
+            { question: "She ___ a song beautifully.", options: ["sings", "sing", "sang", "singing"], answer: 0 },
+            { question: "The baby ___ a lot during the night.", options: ["cry", "crying", "cried", "cries"], answer: 3 },
+            { question: "They often ___ at that restaurant.", options: ["eating", "ate", "eat", "eats"], answer: 2 },
+            { question: "My father ___ the newspaper every morning.", options: ["read", "reading", "reads", "reading"], answer: 2 },
+            { question: "You ___ great advice.", options: ["giving", "gave", "gives", "give"], answer: 3 },
+            { question: "The cat ___ on the sofa.", options: ["sleep", "slept", "sleeping", "sleeps"], answer: 3 },
+            { question: "I ___ lunch at noon.", options: ["having", "had", "has", "have"], answer: 3 },
+            { question: "She always ___ her keys at home.", options: ["forgetting", "forgot", "forget", "forgets"], answer: 3 },
+            { question: "Birds ___ in the sky.", options: ["flew", "flying", "flies", "fly"], answer: 3 }
+        ],
+        "Present Continuous": [
+            { question: "She ___ for her exam right now.", options: ["studied", "is studying", "studies", "was studying"], answer: 1 },
+            { question: "They ___ TV at the moment.", options: ["watched", "are watching", "watch", "watched"], answer: 1 },
+            { question: "I ___ a new book these days.", options: ["am reading", "read", "was reading", "reading"], answer: 0 },
+            { question: "The kids ___ outside.", options: ["are plays", "play", "are playing", "played"], answer: 2 },
+            { question: "He ___ to his favorite song.", options: ["listening", "listens", "is listening", "listened"], answer: 2 },
+            { question: "We ___ dinner now.", options: ["eat", "eating", "are eating", "eaten"], answer: 2 },
+            { question: "My mother ___ a cake in the kitchen.", options: ["bakes", "is baking", "baked", "bake"], answer: 1 },
+            { question: "I ___ to the gym this week.", options: ["go", "am going", "going", "gone"], answer: 1 },
+            { question: "The baby ___.", options: ["is crying", "cries", "crying", "cried"], answer: 0 },
+            { question: "You ___ too much noise!", options: ["make", "are making", "made", "making"], answer: 1 },
+            { question: "She ___ a photo of the sunset.", options: ["is taking", "takes", "took", "take"], answer: 0 },
+            { question: "We ___ a movie tonight.", options: ["watch", "are watching", "watches", "watching"], answer: 1 },
+            { question: "He ___ in his room.", options: ["sleeps", "is sleeping", "sleep", "sleeping"], answer: 1 },
+            { question: "The teacher ___ the lesson now.", options: ["is explaining", "explains", "explained", "explaining"], answer: 0 },
+            { question: "They ___ the house this weekend.", options: ["is cleaning", "cleaning", "are cleaning", "cleaned"], answer: 2 },
+            { question: "I ___ with my friend today.", options: ["hangs out", "hang out", "am hanging out", "hanged out"], answer: 2 },
+            { question: "He ___ late again.", options: ["is coming", "comes", "came", "coming"], answer: 0 },
+            { question: "We ___ a trip to the mountains.", options: ["are planning", "plans", "planned", "planning"], answer: 0 },
+            { question: "My phone ___ at the moment.", options: ["rings", "is ringing", "ring", "ringing"], answer: 1 },
+            { question: "You ___ me right now!", options: ["annoy", "are annoying", "annoyed", "annoying"], answer: 1 }
+        ],
+        "Present Perfect": [
+            { question: "She ___ finished her homework.", options: ["have", "has", "had", "having"], answer: 1 },
+            { question: "I ___ this movie before.", options: ["see", "saw", "have seen", "seeing"], answer: 2 },
+            { question: "They ___ gone to the store.", options: ["has", "had", "have", "having"], answer: 2 },
+            { question: "We ___ in this city for ten years.", options: ["lived", "live", "have lived", "living"], answer: 2 },
+            { question: "He ___ already eaten lunch.", options: ["has", "have", "had", "having"], answer: 0 },
+            { question: "You ___ your keys again!", options: ["lost", "have lost", "lose", "losing"], answer: 1 },
+            { question: "The teacher ___ not arrived yet.", options: ["have", "has", "had", "have been"], answer: 1 },
+            { question: "I ___ never tried sushi.", options: ["have", "has", "had", "having"], answer: 0 },
+            { question: "She ___ seen that movie three times.", options: ["have", "has", "had", "has been"], answer: 1 },
+            { question: "They ___ visited Paris before.", options: ["has", "have", "had", "have been"], answer: 1 },
+            { question: "We ___ not finished the project yet.", options: ["has", "have", "had", "having"], answer: 1 },
+            { question: "He ___ played the piano since he was five.", options: ["has", "have", "had", "has been"], answer: 0 },
+            { question: "My friends ___ gone to the concert.", options: ["have", "has", "had", "have been"], answer: 0 },
+            { question: "You ___ been to this museum, right?", options: ["has", "have", "had", "have being"], answer: 1 },
+            { question: "I ___ seen that actor before.", options: ["have", "has", "had", "having"], answer: 0 },
+            { question: "He ___ traveled to many countries.", options: ["have", "has", "had", "have been"], answer: 1 },
+            { question: "We ___ cleaned the house.", options: ["have", "has", "had", "having"], answer: 0 },
+            { question: "They ___ not finished their homework.", options: ["have", "has", "had", "have been"], answer: 0 },
+            { question: "She ___ written three books.", options: ["has", "have", "had", "writing"], answer: 0 },
+            { question: "My friends ___ come to my home.", options: ["has", "have", "had", "writing"], answer: 1 }
+        ],
+        "Present Perfect Continuous": [
+            { question: "I ___ working all day.", options: ["have been", "has been", "had been", "am"], answer: 0 },
+            { question: "She ___ reading that book for hours.", options: ["has been", "have been", "is", "was"], answer: 0 },
+            { question: "They ___ playing football since morning.", options: ["has been", "had been", "have been", "are"], answer: 2 },
+            { question: "He ___ sleeping for ten hours.", options: ["is", "was", "has been", "had been"], answer: 2 },
+            { question: "We ___ waiting for the bus.", options: ["are", "have been", "has been", "were"], answer: 1 },
+            { question: "You ___ studying English for two years.", options: ["has been", "have been", "are", "had been"], answer: 1 },
+            { question: "She ___ working at the hospital.", options: ["has been", "have been", "is", "had"], answer: 0 },
+            { question: "They ___ cooking dinner for an hour.", options: ["are", "have been", "had been", "is"], answer: 1 },
+            { question: "I ___ feeling tired lately.", options: ["have been", "has been", "am", "had been"], answer: 0 },
+            { question: "He ___ exercising regularly.", options: ["have been", "has been", "is", "was"], answer: 1 },
+            { question: "We ___ painting the house all day.", options: ["have been", "has been", "are", "were"], answer: 0 },
+            { question: "She ___ learning French recently.", options: ["has been", "have been", "was", "is"], answer: 0 },
+            { question: "You ___ practicing a lot.", options: ["has been", "have been", "are", "had been"], answer: 1 },
+            { question: "I ___ cleaning since morning.", options: ["have been", "has been", "am", "had been"], answer: 0 },
+            { question: "They ___ traveling for weeks.", options: ["has been", "have been", "are", "were"], answer: 1 },
+            { question: "He ___ driving for five hours.", options: ["has been", "have been", "is", "was"], answer: 0 },
+            { question: "We ___ looking for a new apartment.", options: ["has been", "have been", "are", "had been"], answer: 1 },
+            { question: "She ___ studying all night.", options: ["has been", "have been", "was", "had"], answer: 0 },
+            { question: "You ___ doing well in class.", options: ["have been", "has been", "are", "were"], answer: 0 },
+            { question: "I ___ fixing this problem.", options: ["have been", "has been", "am", "had been"], answer: 0 }
+        ],
+        "Simple Past": [
+            { question: "She ___ a letter yesterday.", options: ["wrote", "write", "writes", "writing"], answer: 0 },
+            { question: "We ___ to the park last weekend.", options: ["go", "going", "went", "goes"], answer: 2 },
+            { question: "He ___ his keys this morning.", options: ["lost", "loses", "lose", "losing"], answer: 0 },
+            { question: "They ___ dinner at 7 p.m.", options: ["have", "had", "has", "having"], answer: 1 },
+            { question: "I ___ a new phone last week.", options: ["buy", "buys", "bought", "buying"], answer: 2 },
+            { question: "You ___ late yesterday.", options: ["came", "come", "coming", "comes"], answer: 0 },
+            { question: "The cat ___ under the bed.", options: ["hides", "hide", "hiding", "hid"], answer: 3 },
+            { question: "He ___ the game easily.", options: ["win", "won", "winning", "wins"], answer: 1 },
+            { question: "We ___ home early.", options: ["returned", "return", "returning", "returns"], answer: 0 },
+            { question: "She ___ her homework last night.", options: ["did", "do", "does", "doing"], answer: 0 },
+            { question: "They ___ very happy with the news.", options: ["was", "are", "were", "being"], answer: 2 },
+            { question: "He ___ a cake for the party.", options: ["bake", "baked", "bakes", "baking"], answer: 1 },
+            { question: "I ___ the movie already.", options: ["saw", "see", "seeing", "seen"], answer: 0 },
+            { question: "You ___ to me yesterday.", options: ["talk", "talking", "talked", "talks"], answer: 2 },
+            { question: "She ___ all the cookies.", options: ["ate", "eat", "eaten", "eating"], answer: 0 },
+            { question: "We ___ the answer.", options: ["knew", "know", "known", "knowing"], answer: 0 },
+            { question: "The dog ___ loudly.", options: ["bark", "barks", "barked", "barking"], answer: 2 },
+            { question: "He ___ his phone on the table.", options: ["left", "leaves", "leave", "leaving"], answer: 0 },
+            { question: "They ___ the match last night.", options: ["play", "playing", "played", "plays"], answer: 2 },
+            { question: "I ___ the gift you sent.", options: ["love", "loved", "loving", "loves"], answer: 1 }
+        ],
+        "Past Continuous": [
+            { question: "I ___ dinner when you called.", options: ["was having", "have", "had", "am having"], answer: 0 },
+            { question: "They ___ TV at 8 p.m.", options: ["watched", "were watching", "watch", "watching"], answer: 1 },
+            { question: "She ___ to music all evening.", options: ["is listening", "listened", "was listening", "listening"], answer: 2 },
+            { question: "We ___ the car when it started to rain.", options: ["washed", "wash", "were washing", "washing"], answer: 2 },
+            { question: "He ___ in the garden yesterday.", options: ["worked", "was working", "works", "working"], answer: 1 },
+            { question: "You ___ loudly during the movie.", options: ["were talking", "talked", "talk", "talking"], answer: 0 },
+            { question: "I ___ home when I saw him.", options: ["was walking", "walked", "walking", "walks"], answer: 0 },
+            { question: "They ___ when the lights went out.", options: ["danced", "were dancing", "dancing", "dance"], answer: 1 },
+            { question: "The baby ___ at 2 a.m.", options: ["was crying", "cried", "crying", "cries"], answer: 0 },
+            { question: "He ___ when I knocked.", options: ["was sleeping", "slept", "sleeping", "sleeps"], answer: 0 },
+            { question: "We ___ for the train.", options: ["were waiting", "waited", "wait", "waits"], answer: 0 },
+            { question: "She ___ her room all morning.", options: ["cleaned", "was cleaning", "cleans", "cleaning"], answer: 1 },
+            { question: "They ___ when the phone rang.", options: ["were studying", "studied", "study", "studies"], answer: 0 },
+            { question: "You ___ when I arrived.", options: ["were cooking", "cooked", "cooks", "cook"], answer: 0 },
+            { question: "I ___ a book last night.", options: ["was reading", "read", "reads", "reading"], answer: 0 },
+            { question: "The kids ___ in the pool.", options: ["swam", "swim", "were swimming", "swimming"], answer: 2 },
+            { question: "He ___ to fix the car.", options: ["was trying", "tried", "tries", "trying"], answer: 0 },
+            { question: "We ___ a puzzle all day.", options: ["were solving", "solved", "solving", "solves"], answer: 0 },
+            { question: "She ___ tea when I came.", options: ["made", "was making", "makes", "making"], answer: 1 },
+            { question: "I ___ my bag when it broke.", options: ["was carrying", "carried", "carries", "carrying"], answer: 0 }
+        ],
+        "Past Perfect": [
+            { question: "She ___ left before I arrived.", options: ["has", "had", "have", "was"], answer: 1 },
+            { question: "We ___ eaten when he came.", options: ["have", "has", "had", "having"], answer: 2 },
+            { question: "They ___ gone to the store before it closed.", options: ["had", "have", "has", "was"], answer: 0 },
+            { question: "I ___ finished my work by noon.", options: ["had", "have", "has", "did"], answer: 0 },
+            { question: "He ___ already gone to bed.", options: ["has", "had", "have", "was"], answer: 1 },
+            { question: "You ___ studied before the test.", options: ["had", "has", "have", "did"], answer: 0 },
+            { question: "The train ___ left when we arrived.", options: ["had", "has", "was", "have"], answer: 0 },
+            { question: "She ___ read the book before the class.", options: ["had", "has", "have", "was"], answer: 0 },
+            { question: "They ___ visited that museum already.", options: ["have", "has", "had", "were"], answer: 2 },
+            { question: "We ___ met before the party.", options: ["had", "have", "has", "was"], answer: 0 },
+            { question: "I ___ never seen snow before.", options: ["had", "has", "have", "was"], answer: 0 },
+            { question: "He ___ lost his wallet before reaching home.", options: ["has", "have", "had", "was"], answer: 2 },
+            { question: "The team ___ practiced hard before the game.", options: ["has", "had", "have", "did"], answer: 1 },
+            { question: "She ___ cooked dinner before guests arrived.", options: ["had", "has", "have", "was"], answer: 0 },
+            { question: "They ___ left when we got there.", options: ["had", "has", "have", "did"], answer: 0 },
+            { question: "We ___ finished the project before the deadline.", options: ["have", "has", "had", "was"], answer: 2 },
+            { question: "You ___ told me the truth earlier.", options: ["had", "have", "has", "did"], answer: 0 },
+            { question: "I ___ known her for years.", options: ["had", "have", "has", "did"], answer: 0 },
+            { question: "He ___ forgotten my name.", options: ["had", "has", "have", "did"], answer: 0 },
+            { question: "The teacher ___ left the classroom.", options: ["had", "has", "have", "was"], answer: 0 }
+        ],
+        "Past Perfect Continuous": [
+            { question: "She ___ working there for five years before quitting.", options: ["has been", "had been", "have been", "was"], answer: 1 },
+            { question: "We ___ driving for hours when the car broke down.", options: ["had been", "have been", "were", "was"], answer: 0 },
+            { question: "They ___ arguing before the teacher arrived.", options: ["have been", "has been", "were", "had been"], answer: 3 },
+            { question: "I ___ living in New York before I moved.", options: ["have been", "has been", "had been", "was"], answer: 2 },
+            { question: "He ___ sleeping when the alarm rang.", options: ["had been", "has been", "have been", "was"], answer: 0 },
+            { question: "You ___ reading for two hours before dinner.", options: ["have been", "had been", "was", "were"], answer: 1 },
+            { question: "The students ___ studying all night.", options: ["has been", "have been", "were", "had been"], answer: 3 },
+            { question: "We ___ walking for miles before resting.", options: ["had been", "has been", "were", "have been"], answer: 0 },
+            { question: "She ___ cooking since morning.", options: ["had been", "has been", "was", "have been"], answer: 0 },
+            { question: "They ___ traveling for a month before returning.", options: ["have been", "has been", "were", "had been"], answer: 3 },
+            { question: "I ___ trying to call you.", options: ["have been", "has been", "was", "had been"], answer: 3 },
+            { question: "He ___ learning English before he moved.", options: ["had been", "has been", "was", "have been"], answer: 0 },
+            { question: "You ___ waiting long when I saw you.", options: ["has been", "had been", "were", "have been"], answer: 1 },
+            { question: "The cat ___ sleeping peacefully.", options: ["had been", "was", "has been", "have been"], answer: 0 },
+            { question: "We ___ cleaning the house all morning.", options: ["had been", "have been", "were", "has been"], answer: 0 },
+            { question: "She ___ watching TV when I arrived.", options: ["has been", "was", "had been", "have been"], answer: 2 },
+            { question: "They ___ planning the trip for weeks.", options: ["had been", "has been", "were", "have been"], answer: 0 },
+            { question: "I ___ hoping to meet you.", options: ["has been", "have been", "was", "had been"], answer: 3 },
+            { question: "He ___ writing a novel.", options: ["have been", "has been", "was", "had been"], answer: 3 },
+            { question: "We ___ fixing the roof before it rained.", options: ["had been", "has been", "were", "have been"], answer: 0 }
+        ],
+        "Simple Future": [
+            { question: "I ___ call you later.", options: ["will", "would", "am", "was"], answer: 0 },
+            { question: "She ___ visit her grandma tomorrow.", options: ["will be", "will", "is", "has"], answer: 1 },
+            { question: "They ___ go to the beach next week.", options: ["are", "would", "will", "have"], answer: 2 },
+            { question: "He ___ take the test on Friday.", options: ["will", "would", "has", "had"], answer: 0 },
+            { question: "We ___ start the meeting at 10 a.m.", options: ["have", "shall", "would", "will"], answer: 3 },
+            { question: "You ___ see the results soon.", options: ["will", "shall", "would", "have"], answer: 0 },
+            { question: "The teacher ___ explain it tomorrow.", options: ["is", "has", "will", "was"], answer: 2 },
+            { question: "My mom ___ cook dinner tonight.", options: ["will", "would", "cooks", "cooking"], answer: 0 },
+            { question: "They ___ arrive by 5 p.m.", options: ["will", "have", "has", "would"], answer: 0 },
+            { question: "I ___ send the email shortly.", options: ["would", "sending", "will", "send"], answer: 2 },
+            { question: "She ___ help us clean the house.", options: ["will", "would", "is", "had"], answer: 0 },
+            { question: "We ___ attend the event.", options: ["will", "would", "attending", "attends"], answer: 0 },
+            { question: "He ___ join the team next year.", options: ["will", "has", "had", "joins"], answer: 0 },
+            { question: "You ___ get your results tomorrow.", options: ["get", "would", "have", "will"], answer: 3 },
+            { question: "They ___ travel to Europe.", options: ["will", "travels", "traveling", "would"], answer: 0 },
+            { question: "I ___ be there at noon.", options: ["will", "shall", "would", "am"], answer: 0 },
+            { question: "He ___ play the guitar at the concert.", options: ["would", "plays", "will", "is"], answer: 2 },
+            { question: "We ___ buy a new car soon.", options: ["will", "buys", "are", "would"], answer: 0 },
+            { question: "She ___ clean the room later.", options: ["will", "cleans", "cleaning", "is"], answer: 0 },
+            { question: "You ___ enjoy the party.", options: ["enjoy", "will", "would", "enjoys"], answer: 1 }
+        ],
+        "Future Continuous": [
+            { question: "I ___ be working at 9 a.m.", options: ["will be", "will ", "am", "have been"], answer: 1 },
+            { question: "She ___ be sleeping when we arrive.", options: ["will be", "will ", "is", "be"], answer: 1 },
+            { question: "They ___ playing football at noon.", options: ["will be", "are", "will", "play"], answer: 0 },
+            { question: "He ___ studying all night.", options: ["will", "is", "will be", "was"], answer: 2 },
+            { question: "We ___ be traveling this time tomorrow.", options: ["will", "will be", "were", "are"], answer: 0 },
+            { question: "You ___ using this computer later.", options: ["will", "are", "have", "will be"], answer: 3 },
+            { question: "The kids ___ sleeping by 10.", options: ["will", "will be", "are", "sleep"], answer: 1 },
+            { question: "I ___ driving during rush hour.", options: ["will be", "will", "am", "was"], answer: 0 },
+            { question: "She ___ be waiting at the station.", options: ["will be", "will", "was", "is"], answer: 1 },
+            { question: "We ___ cleaning the house all day.", options: ["will be", "have been", "will", "are"], answer: 0 },
+            { question: "He ___ be practicing the piano.", options: ["will be", "has", "is", "will"], answer: 3 },
+            { question: "They ___ be working overtime.", options: ["will be", "are", "have been", "will"], answer: 3 },
+            { question: "You ___ watching a movie later.", options: ["will be", "have", "are", "will"], answer: 0 },
+            { question: "I ___ cooking when you arrive.", options: ["will be", "am", "was", "will"], answer: 0 },
+            { question: "She ___ reading her book.", options: ["will be", "is", "was", "has"], answer: 0 },
+            { question: "They ___ be having dinner soon.", options: ["will ", "are", "have", "were"], answer: 0 },
+            { question: "We ___ be celebrating her birthday.", options: ["will be", "have been", "are", "will"], answer: 3 },
+            { question: "He ___ fixing the car.", options: ["will be", "is", "was", "will"], answer: 0 },
+            { question: "My mother ___ cooking rice.", options: ["will be", "is", "was", "will"], answer: 0 },
+            { question: "You ___ be doing great!", options: ["will", "are", "have", "were"], answer: 0 }
+        ],
+        "Future Perfect": [
+            { "question": "I ___ finished the task by tomorrow.", "options": ["have", "had", "will have", "has"], "answer": 2 },
+            { "question": "She ___ left before noon.", "options": ["have", "will have", "had", "has"], "answer": 1 },
+            { "question": "They ___ arrived by the time we leave.", "options": ["has", "had", "will have", "have"], "answer": 2 },
+            { "question": "He ___ completed the project by Friday.", "options": ["has", "will have", "have", "had"], "answer": 1 },
+            { "question": "We ___ eaten before the movie.", "options": ["had", "will have", "have", "has"], "answer": 1 },
+            { "question": "You ___ received the message.", "options": ["has", "had", "will have", "have"], "answer": 2 },
+            { "question": "She ___ written five pages by then.", "options": ["has", "will have", "have", "had"], "answer": 1 },
+            { "question": "They ___ gone home by 8.", "options": ["will have", "had", "has", "have"], "answer": 0 },
+            { "question": "I ___ learned enough by the test.", "options": ["have", "had", "will have", "has"], "answer": 2 },
+            { "question": "We ___ finished our work.", "options": ["had", "has", "have", "will have"], "answer": 3 },
+            { "question": "He ___ read the book by tonight.", "options": ["has", "had", "will have", "have"], "answer": 2 },
+            { "question": "You ___ watched the whole season.", "options": ["will have", "has", "have", "had"], "answer": 0 },
+            { "question": "She ___ reached the station before 5.", "options": ["has", "have", "will have", "had"], "answer": 2 },
+            { "question": "I ___ cleaned my room by then.", "options": ["has", "will have", "have", "had"], "answer": 1 },
+            { "question": "They ___ saved enough money.", "options": ["have", "will have", "had", "has"], "answer": 1 },
+            { "question": "We ___ made the final decision.", "options": ["have", "had", "has", "will have"], "answer": 3 },
+            { "question": "He ___ completed his degree.", "options": ["had", "will have", "have", "has"], "answer": 1 },
+            { "question": "You ___ studied everything needed.", "options": ["had", "have", "will have", "has"], "answer": 2 },
+            { "question": "She ___ booked the tickets.", "options": ["has", "had", "will have", "have"], "answer": 2 },
+            { "question": "I ___ reached the destination.", "options": ["had", "have", "will have", "has"], "answer": 2 }
+        ],
+        "Future Perfect Continuous": [
+            { "question": "By next year, I ___ working here for a decade.", "options": ["has been", "will have been", "have been", "will be"], "answer": 1 },
+            { "question": "She ___ studying for hours by midnight.", "options": ["will have been", "has been", "is", "will be"], "answer": 0 },
+            { "question": "They ___ traveling for days by then.", "options": ["have been", "will be", "had", "will have been"], "answer": 3 },
+            { "question": "We ___ building the house for months.", "options": ["are", "has been", "will have been", "will be"], "answer": 2 },
+            { "question": "He ___ waiting for you all day.", "options": ["is", "has been", "will be", "will have been"], "answer": 3 },
+            { "question": "I ___ trying to reach you.", "options": ["am", "will be", "have been", "will have been"], "answer": 3 },
+            { "question": "You ___ working hard before the event.", "options": ["will have been", "have been", "is", "has been"], "answer": 0 },
+            { "question": "They ___ performing for an hour.", "options": ["will be", "will have been", "are", "has been"], "answer": 1 },
+            { "question": "She ___ practicing all week.", "options": ["is", "will have been", "has been", "will be"], "answer": 1 },
+            { "question": "We ___ discussing the plan for days.", "options": ["have been", "will have been", "has been", "will be"], "answer": 1 },
+            { "question": "He ___ writing the book for years.", "options": ["will have been", "has been", "will be", "is"], "answer": 0 },
+            { "question": "I ___ teaching them for three hours.", "options": ["have been", "am", "will be", "will have been"], "answer": 3 },
+            { "question": "They ___ developing the app for months.", "options": ["has been", "have been", "will have been", "were"], "answer": 2 },
+            { "question": "You ___ studying non-stop.", "options": ["are", "will be", "has been", "will have been"], "answer": 3 },
+            { "question": "She ___ saving money for a year.", "options": ["will have been", "will be", "has been", "is"], "answer": 0 },
+            { "question": "We ___ organizing the event for weeks.", "options": ["has been", "will be", "have been", "will have been"], "answer": 3 },
+            { "question": "He ___ learning Spanish since January.", "options": ["has been", "will be", "is", "will have been"], "answer": 3 },
+            { "question": "I ___ living in this city for five years.", "options": ["have been", "am", "will have been", "will be"], "answer": 2 },
+            { "question": "They ___ training for the competition.", "options": ["are", "have been", "will be", "will have been"], "answer": 3 },
+            { "question": "She ___ waiting for over an hour.", "options": ["has been", "is", "will be", "will have been"], "answer": 3 }
+        ]
+
+        };
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            const tenseTabs = document.getElementById('tenseTabs');
+            const tabContents = document.getElementById('tabContents');
+            const totalQuestionsElement = document.getElementById('totalQuestions');
+            
+            // Create tabs and content for each tense
+            Object.keys(tensesData).forEach((tense, index) => {
+                // Create tab button
+                const tabButton = document.createElement('button');
+                tabButton.className = 'tab-button' + (index === 0 ? ' active' : '');
+                tabButton.textContent = tense;
+                tabButton.dataset.tense = tense;
+                tabButton.addEventListener('click', switchTab);
+                tenseTabs.appendChild(tabButton);
+                
+                // Create tab content
+                const tabContent = document.createElement('div');
+                tabContent.className = 'tab-content' + (index === 0 ? ' active' : '');
+                tabContent.id = tense.replace(/\s+/g, '-') + '-content';
+                tabContents.appendChild(tabContent);
+                
+                // Add questions to the tab content
+                const questions = tensesData[tense];
+                questions.forEach((q, qIndex) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-container';
+                    questionDiv.dataset.questionIndex = qIndex;
+                    
+                    const questionNumber = document.createElement('div');
+                    questionNumber.className = 'question-number';
+                    questionNumber.textContent = qIndex + 1;
+                    
+                    const questionText = document.createElement('div');
+                    questionText.className = 'question';
+                    questionText.textContent = q.question;
+                    
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'options';
+                    
+                    q.options.forEach((option, oIndex) => {
+                        const optionDiv = document.createElement('label');
+                        optionDiv.className = 'option';
+                        
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.name = `q-${tense}-${qIndex}`;
+                        input.value = oIndex;
+                        input.addEventListener('change', checkAnswer);
+                        
+                        const optionText = document.createTextNode(option);
+                        
+                        optionDiv.appendChild(input);
+                        optionDiv.appendChild(optionText);
+                        optionsDiv.appendChild(optionDiv);
+                    });
+                    
+                    const feedbackDiv = document.createElement('div');
+                    feedbackDiv.className = 'feedback';
+                    
+                    questionDiv.appendChild(questionNumber);
+                    questionDiv.appendChild(questionText);
+                    questionDiv.appendChild(optionsDiv);
+                    questionDiv.appendChild(feedbackDiv);
+                    tabContent.appendChild(questionDiv);
+                });
+            });
+            
+            // Set total questions count
+            let totalQuestions = 0;
+            Object.values(tensesData).forEach(questions => {
+                totalQuestions += questions.length;
+            });
+            totalQuestionsElement.textContent = totalQuestions;
+            
+            // Update progress bar and score display
+            updateScoreDisplay();
+        });
+        
+        function switchTab(e) {
+            const tense = e.target.dataset.tense;
+            const tenseId = tense.replace(/\s+/g, '-') + '-content';
+            
+            // Update active tab button
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            
+            // Update active tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tenseId).classList.add('active');
+        }
+        
+        function checkAnswer(e) {
+            const radio = e.target;
+            const optionDiv = radio.parentElement;
+            const questionDiv = optionDiv.closest('.question-container');
+            const feedbackDiv = questionDiv.querySelector('.feedback');
+            const tense = questionDiv.closest('.tab-content').id.replace('-content', '').replace(/-/g, ' ');
+            const questionIndex = parseInt(questionDiv.dataset.questionIndex);
+            const selectedAnswer = parseInt(radio.value);
+            const correctAnswer = tensesData[tense][questionIndex].answer;
+            
+            // Clear previous feedback
+            feedbackDiv.className = 'feedback';
+            feedbackDiv.innerHTML = '';
+            
+            // Check if answer is correct
+            if (selectedAnswer === correctAnswer) {
+                // Correct answer
+                optionDiv.classList.add('correct');
+                feedbackDiv.classList.add('correct');
+                feedbackDiv.innerHTML = '<i class="fas fa-check-circle"></i> Correct! Well done!';
+                
+                // Add animation to correct answer
+                optionDiv.style.animation = 'correctAnswer 0.5s ease';
+                
+                // Update score
+                const scoreElement = document.getElementById('score');
+                let score = parseInt(scoreElement.textContent);
+                
+                // Only increase score if this question wasn't answered correctly before
+                if (!questionDiv.dataset.answeredCorrectly) {
+                    score++;
+                    scoreElement.textContent = score;
+                    questionDiv.dataset.answeredCorrectly = 'true';
+                    
+                    // Show celebration for correct answer
+                    showCelebration();
+                }
+                
+                // Update progress bar and score display
+                updateScoreDisplay();
+            } else {
+                // Incorrect answer
+                optionDiv.classList.add('incorrect');
+                feedbackDiv.classList.add('incorrect');
+                feedbackDiv.innerHTML = `<i class="fas fa-times-circle"></i> Incorrect. The correct answer is: ${tensesData[tense][questionIndex].options[correctAnswer]}`;
+                
+                // Highlight correct answer
+                const correctOption = questionDiv.querySelectorAll('.option')[correctAnswer];
+                correctOption.classList.add('correct');
+            }
+            
+            // Disable all options for this question after answering
+            const options = questionDiv.querySelectorAll('.option');
+            options.forEach(opt => {
+                const input = opt.querySelector('input');
+                input.disabled = true;
+            });
+        }
+        
+        function updateScoreDisplay() {
+            const score = parseInt(document.getElementById('score').textContent);
+            const totalQuestions = parseInt(document.getElementById('totalQuestions').textContent);
+            const progressPercentage = Math.round((score / totalQuestions) * 100);
+            
+            // Update percentage display
+            document.getElementById('scorePercentage').textContent = progressPercentage;
+            
+            // Update progress bar
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+            
+            // Update skill level
+            const skillLevelElement = document.getElementById('skillLevel');
+            let skillLevel = '';
+            
+            if (progressPercentage >= 80) {
+                skillLevel = 'Expert';
+            } else if (progressPercentage >= 60) {
+                skillLevel = 'Advanced';
+            } else if (progressPercentage >= 40) {
+                skillLevel = 'Intermediate';
+            } else if (progressPercentage >= 20) {
+                skillLevel = 'Basic';
+            } else {
+                skillLevel = 'Beginner';
+            }
+            
+            skillLevelElement.textContent = `Your level: ${skillLevel}`;
+        }
+        
+        function showCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.innerHTML = '';
+            celebration.classList.add('active');
+            
+            // Create confetti
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animation = `confettiFall ${3 + Math.random() * 4}s linear forwards`;
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                celebration.appendChild(confetti);
+            }
+            
+            // Hide after animation
+            setTimeout(() => {
+                celebration.classList.remove('active');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Pronouns - E.RECALLER</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #8a2be2;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --sinhala: #00534C;
+            --tamil: #8a7d35;
+            --success: #28a745;
+            --warning: #ffc107;
+            --text: #424242;
+            --bg: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background:var(--bg);
+            color: var(--primary);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            animation: fadeInDown 1s ease;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease;
+        }
+        
+        /* Language Tabs */
+        .language-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: #e9ecef;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 30px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .tab-btn.active {
+            font-weight: bold;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .tab-btn.english.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-btn.sinhala.active {
+            background: var(--sinhala);
+            color: white;
+        }
+        
+        .tab-btn.tamil.active {
+            background: var(--tamil);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Card Styles */
+        .intro-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: var(--secondary);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h3 i {
+            color: var(--primary);
+        }
+        
+        /* Pronoun Section */
+        .pronoun-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .pronoun-section h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+        
+        .pronoun-section h3 {
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e9f5ff;
+        }
+        
+        /* Example Box */
+        .example-box {
+            background: #e9f5ff;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+            transition: all 0.3s;
+        }
+        
+        .example-box:hover {
+            background: #d8ebff;
+            transform: translateX(5px);
+        }
+        
+        .example-box strong {
+            color: var(--primary);
+        }
+        
+        /* Language Specific Styles */
+        .sinhala-text {
+            font-family: 'Iskoola Pota', 'Malithi Web', sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .tamil-text {
+            font-family: 'Latha', 'Vijaya', sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            color: #666;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Quiz Section */
+        .quiz-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .quiz-option {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+        
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .feedback-correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .feedback-incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Navbar Styles from nav.html */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 2rem;
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-img {
+            height: 30px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger.active {
+            transform: rotate(90deg);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 280px;
+            height: 100%;
+            background-color: var(--bg);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            gap: 1.5rem;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-link {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            transform: translateX(20px);
+            opacity: 0;
+        }
+
+        .mobile-nav.active .mobile-link {
+            transform: translateX(0);
+            opacity: 1;
+            transition-delay: calc(0.1s * var(--i));
+        }
+
+        .mobile-link:hover {
+            background-color: rgba(74, 107, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .mobile-link i {
+            font-size: 1.3rem;
+            width: 25px;
+            text-align: center;
+        }
+
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .intro-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .logo-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+            <div class="logo-text">E.RECALLER</div>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="about.html" class="nav-link">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </a>
+            <a href="feedback.html" class="nav-link">
+                <i class="fas fa-comment-alt"></i>
+                <span>Feedback</span>
+            </a>
+            <a href="help.html" class="nav-link">
+                <i class="fas fa-question-circle"></i>
+                <span>Help</span>
+            </a>
+        </nav>
+        
+        <button class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="backdrop" id="backdrop"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html" class="mobile-link">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="about.html" class="mobile-link">
+            <i class="fas fa-info-circle"></i>
+            <span>About</span>
+        </a>
+        <a href="feedback.html" class="mobile-link">
+            <i class="fas fa-comment-alt"></i>
+            <span>Feedback</span>
+        </a>
+        <a href="help.html" class="mobile-link">
+            <i class="fas fa-question-circle"></i>
+            <span>Help</span>
+        </a>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1> Understanding Pronouns</h1>
+            <p>A multilingual guide to pronouns in English, Sinhala, and Tamil</p>
+        </header>
+        
+        <!-- Language Tabs -->
+        <div class="language-tabs">
+            <button class="tab-btn english active" onclick="openTab('english')">
+        English
+            </button>
+            <button class="tab-btn sinhala" onclick="openTab('sinhala')">
+        සිංහල
+            </button>
+            <button class="tab-btn tamil" onclick="openTab('tamil')">
+        தமிழ்
+            </button>
+        </div>
+        
+        <!-- ENGLISH TAB -->
+        <div id="english" class="tab-content active">
+            <section class="intro-cards">
+                <div class="card">
+                    <h3><i class="fas fa-question-circle"></i> What Are Pronouns?</h3>
+                    <p>Pronouns are words we use instead of nouns (names of people, places, or things). They help us avoid repetition and make our sentences flow better.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> "Ravi is my friend. He is kind."<br>
+                        ("He" replaces "Ravi")
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-lightbulb"></i> Why Use Pronouns?</h3>
+                    <ul>
+                        <li>Avoid repeating the same names</li>
+                        <li>Make sentences shorter and smoother</li>
+                        <li>Talk about people/animals/things easily</li>
+                        <li>Make communication more efficient</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Where We Use Pronouns</h3>
+                    <ul>
+                        <li>People: He, She, They</li>
+                        <li>Animals: It, They</li>
+                        <li>Things: It</li>
+                        <li>Ourselves/Others: I, You, We</li>
+                        <li>Possession: My, Your, His</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="pronoun-section">
+                <h2><i class="fas fa-layer-group"></i> Types of Pronouns</h2>
+                
+                <h3><i class="fas fa-user"></i> 1. Subject Pronouns</h3>
+                <p>Used when the pronoun is the subject (the doer of the action)</p>
+                <table>
+                    <tr>
+                        <th>Pronoun</th>
+                        <th>Example</th>
+                        <th>Usage</th>
+                    </tr>
+                    <tr>
+                        <td>I</td>
+                        <td>I like ice cream.</td>
+                        <td>Speaker referring to self</td>
+                    </tr>
+                    <tr>
+                        <td>You</td>
+                        <td>You are funny.</td>
+                        <td>Person being spoken to</td>
+                    </tr>
+                    <tr>
+                        <td>He</td>
+                        <td>He is my friend.</td>
+                        <td>Male person</td>
+                    </tr>
+                    <tr>
+                        <td>She</td>
+                        <td>She sings well.</td>
+                        <td>Female person</td>
+                    </tr>
+                    <tr>
+                        <td>It</td>
+                        <td>It is a cat.</td>
+                        <td>Animal/object</td>
+                    </tr>
+                    <tr>
+                        <td>We</td>
+                        <td>We play cricket.</td>
+                        <td>Speaker + others</td>
+                    </tr>
+                    <tr>
+                        <td>They</td>
+                        <td>They are at school.</td>
+                        <td>Group of people/things</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-bullseye"></i> 2. Object Pronouns</h3>
+                <p>Used when the pronoun receives the action</p>
+                <table>
+                    <tr>
+                        <th>Pronoun</th>
+                        <th>Example</th>
+                        <th>Usage</th>
+                    </tr>
+                    <tr>
+                        <td>me</td>
+                        <td>He called me.</td>
+                        <td>Receiver of action</td>
+                    </tr>
+                    <tr>
+                        <td>you</td>
+                        <td>I saw you.</td>
+                        <td>Person receiving action</td>
+                    </tr>
+                    <tr>
+                        <td>him</td>
+                        <td>We helped him.</td>
+                        <td>Male receiving action</td>
+                    </tr>
+                    <tr>
+                        <td>her</td>
+                        <td>I met her at the park.</td>
+                        <td>Female receiving action</td>
+                    </tr>
+                    <tr>
+                        <td>it</td>
+                        <td>She likes it.</td>
+                        <td>Animal/object receiving action</td>
+                    </tr>
+                    <tr>
+                        <td>us</td>
+                        <td>They invited us.</td>
+                        <td>Group receiving action</td>
+                    </tr>
+                    <tr>
+                        <td>them</td>
+                        <td>I told them the news.</td>
+                        <td>Group receiving action</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-key"></i> 3. Possessive Pronouns</h3>
+                <p>Show ownership of something</p>
+                <table>
+                    <tr>
+                        <th>Pronoun</th>
+                        <th>Example</th>
+                        <th>Usage</th>
+                    </tr>
+                    <tr>
+                        <td>my</td>
+                        <td>This is my bag.</td>
+                        <td>Belonging to speaker</td>
+                    </tr>
+                    <tr>
+                        <td>your</td>
+                        <td>Where is your pen?</td>
+                        <td>Belonging to listener</td>
+                    </tr>
+                    <tr>
+                        <td>his</td>
+                        <td>That is his phone.</td>
+                        <td>Belonging to male</td>
+                    </tr>
+                    <tr>
+                        <td>her</td>
+                        <td>This is her book.</td>
+                        <td>Belonging to female</td>
+                    </tr>
+                    <tr>
+                        <td>its</td>
+                        <td>The dog wagged its tail.</td>
+                        <td>Belonging to animal/object</td>
+                    </tr>
+                    <tr>
+                        <td>our</td>
+                        <td>This is our house.</td>
+                        <td>Belonging to speaker + others</td>
+                    </tr>
+                    <tr>
+                        <td>their</td>
+                        <td>These are their shoes.</td>
+                        <td>Belonging to group</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-redo"></i> 4. Reflexive Pronouns</h3>
+                <p>Used when the subject and object are the same</p>
+                <table>
+                    <tr>
+                        <th>Pronoun</th>
+                        <th>Example</th>
+                        <th>Usage</th>
+                    </tr>
+                    <tr>
+                        <td>myself</td>
+                        <td>I made it myself.</td>
+                        <td>Speaker does action to self</td>
+                    </tr>
+                    <tr>
+                        <td>yourself</td>
+                        <td>You hurt yourself.</td>
+                        <td>Listener does action to self</td>
+                    </tr>
+                    <tr>
+                        <td>himself</td>
+                        <td>He fixed it himself.</td>
+                        <td>Male does action to self</td>
+                    </tr>
+                    <tr>
+                        <td>herself</td>
+                        <td>She painted it herself.</td>
+                        <td>Female does action to self</td>
+                    </tr>
+                    <tr>
+                        <td>itself</td>
+                        <td>The cat cleaned itself.</td>
+                        <td>Animal does action to self</td>
+                    </tr>
+                    <tr>
+                        <td>ourselves</td>
+                        <td>We built it ourselves.</td>
+                        <td>Group does action to self</td>
+                    </tr>
+                    <tr>
+                        <td>themselves</td>
+                        <td>They enjoyed themselves.</td>
+                        <td>Group does action to self</td>
+                    </tr>
+                </table>
+            </section>
+            
+            <!-- Quiz Section -->
+            <section class="quiz-section">
+                <h2> ACTIVITIES</h2>
+      
+               <!-- 1 -->
+<!-- 1 - Correct answer: He (position 3) -->
+<div class="quiz-question">
+    <p>1. Which pronoun would replace "John" in this sentence: "John is playing football."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'She is for females.')">She</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'They is plural.')">They</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'He is correct for male names.')">He</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It is for objects/animals.')">It</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 2 - Correct answer: me (position 1) -->
+<div class="quiz-question">
+    <p>2. Choose the correct object pronoun: "Please give the ball to ___." (referring to yourself)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Me is the object pronoun.')">me</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Myself is reflexive.')">myself</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'I is a subject pronoun.')">I</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'My shows possession.')">my</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 3 - Correct answer: her (position 4) -->
+<div class="quiz-question">
+    <p>3. Which possessive pronoun fits: "This is ___ book." (referring to a girl)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Your is for the listener.')">your</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'His is for males.')">his</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Their is plural.')">their</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Her shows female possession.')">her</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 4 - Correct answer: herself (position 2) -->
+<div class="quiz-question">
+    <p>4. Complete with reflexive pronoun: "She cooked the meal ___."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Hers is possessive.')">hers</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Herself is correct for female reflexive.')">herself</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Her is object/possessive.')">her</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'She is subject pronoun.')">she</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 5 - Correct answer: It (position 1) -->
+<div class="quiz-question">
+    <p>5. Which pronoun replaces "the cat"? "The cat is sleeping."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'It is for animals.')">It</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'They is plural.')">They</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'He assumes male gender.')">He</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'She assumes female gender.')">She</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 6 - Correct answer: They (position 3) -->
+<div class="quiz-question">
+    <p>6. Choose the correct plural subject pronoun: "___ are going to the park."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'You can be singular.')">You</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'We includes the speaker.')">We</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'They is plural subject.')">They</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It is singular.')">It</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 7 - Correct answer: me (position 4) -->
+<div class="quiz-question">
+    <p>7. Which object pronoun fits: "The teacher gave ___ a prize." (referring to you)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Mine is possessive pronoun.')">mine</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'My is possessive.')">my</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'I is subject pronoun.')">I</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Me is the object pronoun.')">me</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 8 - Correct answer: mine (position 1) -->
+<div class="quiz-question">
+    <p>8. Complete with possessive pronoun: "This pencil is ___." (referring to you)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Mine shows possession.')">mine</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Me is object pronoun.')">me</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'I is subject pronoun.')">I</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'My needs a noun after it.')">my</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 9 - Correct answer: themselves (position 2) -->
+<div class="quiz-question">
+    <p>9. Which reflexive pronoun fits: "The children dressed ___."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Them is object pronoun.')">them</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Themselves is plural reflexive.')">themselves</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Their is possessive.')">their</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'They is subject pronoun.')">they</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 10 - Correct answer: It (position 3) -->
+<div class="quiz-question">
+    <p>10. Choose the correct pronoun: "___ is raining outside."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'He is for males.')">He</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'She is for females.')">She</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'It is used for weather.')">It</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'They is plural.')">They</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 11 - Correct answer: We (position 4) -->
+<div class="quiz-question">
+    <p>11. Which pronoun replaces "Sarah and I"? "Sarah and I went shopping."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'You is for listener.')">You</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'They excludes the speaker.')">They</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Us is object pronoun.')">Us</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'We includes the speaker.')">We</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 12 - Correct answer: us (position 3) -->
+<div class="quiz-question">
+    <p>12. Choose the correct object pronoun: "The dog followed ___." (referring to you and someone else)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Our is possessive.')">our</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'We is subject pronoun.')">we</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Us is plural object pronoun.')">us</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Ourselves is reflexive.')">ourselves</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 13 - Correct answer: their (position 1) -->
+<div class="quiz-question">
+    <p>13. Which possessive pronoun fits: "Is this ___ umbrella?" (referring to two people)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Their is plural possessive.')">their</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'His is singular male.')">his</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Her is singular female.')">her</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Your is for listener.')">your</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 14 - Correct answer: myself (position 4) -->
+<div class="quiz-question">
+    <p>14. Complete with reflexive pronoun: "I hurt ___ when I fell."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'My is possessive.')">my</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Me is object pronoun.')">me</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'I is subject pronoun.')">I</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Myself is singular reflexive.')">myself</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 15 - Correct answer: They (position 2) -->
+<div class="quiz-question">
+    <p>15. Which pronoun replaces "the books"? "The books are on the table."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It is singular.')">It</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'They is plural.')">They</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Them is object pronoun.')">Them</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Their is possessive.')">Their</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 16 - Correct answer: He (position 1) -->
+<div class="quiz-question">
+    <p>16. Choose the correct pronoun: "___ is my brother."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'He is for males.')">He</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'She is for females.')">She</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It is for objects/animals.')">It</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'They is plural.')">They</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 17 - Correct answer: me (position 3) -->
+<div class="quiz-question">
+    <p>17. Which object pronoun fits: "Can you help ___?" (referring to me)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'I is subject pronoun.')">I</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'My is possessive.')">my</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Me is object pronoun.')">me</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Mine is possessive pronoun.')">mine</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 18 - Correct answer: his (position 4) -->
+<div class="quiz-question">
+    <p>18. Complete with possessive pronoun: "That car is ___." (referring to a man)</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Him is object pronoun.')">him</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Her is for females.')">her</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Their is plural.')">their</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'His shows male possession.')">his</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 19 - Correct answer: yourself (position 2) -->
+<div class="quiz-question">
+    <p>19. Which reflexive pronoun fits: "You should be proud of ___."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'You is subject/object.')">you</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Yourself is singular reflexive.')">yourself</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Your is possessive.')">your</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Yours is possessive pronoun.')">yours</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+
+<!-- 20 - Correct answer: They (position 1) -->
+<div class="quiz-question">
+    <p>20. Choose the correct pronoun: "___ are my parents."</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'They is plural.')">They</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'He is singular male.')">He</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'She is singular female.')">She</div>
+        <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It is singular neutral.')">It</div>
+    </div>
+    <div class="quiz-feedback"></div>
+</div>
+        
+        <!-- SINHALA TAB -->
+        <div id="sinhala" class="tab-content">
+            <section class="intro-cards">
+                <div class="card sinhala-text">
+                    <h3><i class="fas fa-question-circle"></i> සර්වනාමය කියන්නේ මොකක්ද?</h3>
+                    <p>සර්වනාමය කියන්නේ නාමපදයක (නමක්) වෙනුවට භාවිතා කරන වචනයක්. එමගින් එකම නම නැවත නැවත කීම වළක්වා වාක්‍ය පහසු කරයි.</p>
+                    <div class="example-box">
+                        <strong>උදාහරණය:</strong> "රවි මගේ මිතුරෙකි. ඔහු දක්ෂයෙකි."<br>
+                        ("ඔහු" කියන්නේ සර්වනාමයකි - රවිය වෙනුවට)
+                    </div>
+                </div>
+                
+                <div class="card sinhala-text">
+                    <h3><i class="fas fa-lightbulb"></i> ඒක භාවිතා කරන්නේ ඇයි?</h3>
+                    <ul>
+                        <li>එකම නම නැවත නැවත කියන්නට අවශ්‍ය නොවීම</li>
+                        <li>වාක්‍ය කෙටි හා පහසු කිරීම</li>
+                        <li>මිනිසුන්, සතුන්, දේවල් පිළිබඳ පහසුවෙන් කීම</li>
+                        <li>සන්නිවේදනය වඩාත් කාර්යක්ෂම කිරීම</li>
+                    </ul>
+                </div>
+                
+                <div class="card sinhala-text">
+                    <h3><i class="fas fa-map-marker-alt"></i> සර්වනාම භාවිතා කරන තැන්</h3>
+                    <ul>
+                        <li>මිනිසුන්: ඔහු, ඇය, ඔවුන්</li>
+                        <li>සතුන්: එය, ඔවුන්</li>
+                        <li>දේවල්: එය</li>
+                        <li>අපි/අන් අය: මම, ඔබ, අපි</li>
+                        <li>අයිතිය: මගේ, ඔබේ, ඔහුගේ</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="pronoun-section sinhala-text">
+                <h2><i class="fas fa-layer-group"></i> සර්වනාම වර්ග</h2>
+                
+                <h3><i class="fas fa-user"></i> 1. ක්‍රියාකරු සර්වනාම (Subject)</h3>
+                <p>ක්‍රියාව කරන අය පෙන්වයි</p>
+                <table>
+                    <tr>
+                        <th>සර්වනාමය</th>
+                        <th>උදාහරණ</th>
+                        <th>භාවිතය</th>
+                    </tr>
+                    <tr>
+                        <td>මම</td>
+                        <td>මම අයිස්ක්‍රීම් කැමතියි.</td>
+                        <td>කතා කරන්නා තමා ගැන</td>
+                    </tr>
+                    <tr>
+                        <td>ඔබ</td>
+                        <td>ඔබ විහිලුකාරයෙක්.</td>
+                        <td>කතා කරන පුද්ගලයා</td>
+                    </tr>
+                    <tr>
+                        <td>ඔහු</td>
+                        <td>ඔහු මගේ මිතුරා.</td>
+                        <td>පිරිමි පුද්ගලයා</td>
+                    </tr>
+                    <tr>
+                        <td>ඇය</td>
+                        <td>ඇය ගායනය කරනවා.</td>
+                        <td>ගැහැණු පුද්ගලයා</td>
+                    </tr>
+                    <tr>
+                        <td>එය</td>
+                        <td>එය පූසෙක්.</td>
+                        <td>සතුන්/වස්තු</td>
+                    </tr>
+                    <tr>
+                        <td>අපි</td>
+                        <td>අපි ක්‍රිකට් කරනවා.</td>
+                        <td>කතා කරන්නා + අන් අය</td>
+                    </tr>
+                    <tr>
+                        <td>ඔවුන්</td>
+                        <td>ඔවුන් පාසැලේ.</td>
+                        <td>පිරිසක්/වස්තු කිහිපයක්</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-bullseye"></i> 2. ක්‍රියාවට ලක්වන සර්වනාම (Object)</h3>
+                <p>ක්‍රියාව ලබන අය පෙන්වයි</p>
+                <table>
+                    <tr>
+                        <th>සර්වනාමය</th>
+                        <th>උදාහරණ</th>
+                        <th>භාවිතය</th>
+                    </tr>
+                    <tr>
+                        <td>මාව</td>
+                        <td>ඔහු මාව කතා කළා.</td>
+                        <td>ක්‍රියාව ලබන්නා</td>
+                    </tr>
+                    <tr>
+                        <td>ඔබව</td>
+                        <td>මම ඔබව දුටුවා.</td>
+                        <td>කතා කරන පුද්ගලයා ක්‍රියාව ලබයි</td>
+                    </tr>
+                    <tr>
+                        <td>ඔහුව</td>
+                        <td>අපි ඔහුව උදව් කළා.</td>
+                        <td>පිරිමි ක්‍රියාව ලබයි</td>
+                    </tr>
+                    <tr>
+                        <td>ඇයව</td>
+                        <td>මම ඇයව උද්යානයේ හමුවුණා.</td>
+                        <td>ගැහැණු ක්‍රියාව ලබයි</td>
+                    </tr>
+                    <tr>
+                        <td>එය</td>
+                        <td>ඇය එය කැමතියි.</td>
+                        <td>සතුන්/වස්තු ක්‍රියාව ලබයි</td>
+                    </tr>
+                    <tr>
+                        <td>අපව</td>
+                        <td>ඔවුන් අපව ආරාධනා කළා.</td>
+                        <td>කතා කරන්නා + අන් අය ක්‍රියාව ලබයි</td>
+                    </tr>
+                    <tr>
+                        <td>ඔවුන්ව</td>
+                        <td>මම ඔවුන්ව පුවත් කීවා.</td>
+                        <td>පිරිසක් ක්‍රියාව ලබයි</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-key"></i> 3. අයිතිය පෙන්වන සර්වනාම (Possessive)</h3>
+                <p>අයිතිවාසිකම් පෙන්වයි</p>
+                <table>
+                    <tr>
+                        <th>සර්වනාමය</th>
+                        <th>උදාහරණ</th>
+                        <th>භාවිතය</th>
+                    </tr>
+                    <tr>
+                        <td>මගේ</td>
+                        <td>මෙය මගේ බෑග් එක.</td>
+                        <td>කතා කරන්නාට අයත්</td>
+                    </tr>
+                    <tr>
+                        <td>ඔබේ</td>
+                        <td>ඔබේ පෑන කොහෙද?</td>
+                        <td>කතා කරන පුද්ගලයාට අයත්</td>
+                    </tr>
+                    <tr>
+                        <td>ඔහුගේ</td>
+                        <td>ඒ ඔහුගේ දුරකථනය.</td>
+                        <td>පිරිමි පුද්ගලයාට අයත්</td>
+                    </tr>
+                    <tr>
+                        <td>ඇයගේ</td>
+                        <td>මෙය ඇයගේ පොත.</td>
+                        <td>ගැහැණු පුද්ගලයාට අයත්</td>
+                    </tr>
+                    <tr>
+                        <td>එහි</td>
+                        <td>බල්ලා එහි වලිගය ගසාගත්තා.</td>
+                        <td>සතුන්/වස්තුවලට අයත්</td>
+                    </tr>
+                    <tr>
+                        <td>අපේ</td>
+                        <td>මෙය අපේ ගෙදර.</td>
+                        <td>කතා කරන්නා + අන් අයට අයත්</td>
+                    </tr>
+                    <tr>
+                        <td>ඔවුන්ගේ</td>
+                        <td>මේ ඔවුන්ගේ සපත්තු.</td>
+                        <td>පිරිසකට අයත්</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-redo"></i> 4. පරාවර්තී සර්වනාම (Reflexive)</h3>
+                <p>ක්‍රියාව කරන අයම එයට ලක්වන විට</p>
+                <table>
+                    <tr>
+                        <th>සර්වනාමය</th>
+                        <th>උදාහරණ</th>
+                        <th>භාවිතය</th>
+                    </tr>
+                    <tr>
+                        <td>මමම</td>
+                        <td>මම එය මමම හැදුවා.</td>
+                        <td>කතා කරන්නාම ක්‍රියාව කරයි</td>
+                    </tr>
+                    <tr>
+                        <td>ඔබම</td>
+                        <td>ඔබ ඔබම රිදවාගත්තා.</td>
+                        <td>කතා කරන පුද්ගලයාම ක්‍රියාව කරයි</td>
+                    </tr>
+                    <tr>
+                        <td>ඔහුම</td>
+                        <td>ඔහු එය ඔහුම අලුත්වැඩියා කළා.</td>
+                        <td>පිරිමි පුද්ගලයාම ක්‍රියාව කරයි</td>
+                    </tr>
+                    <tr>
+                        <td>ඇයම</td>
+                        <td>ඇය එය ඇයම තීන්ත ආලේප කළා.</td>
+                        <td>ගැහැණු පුද්ගලයාම ක්‍රියාව කරයි</td>
+                    </tr>
+                    <tr>
+                        <td>එයම</td>
+                        <td>පූසා එයම පිරිසිදු කළා.</td>
+                        <td>සතුන්/වස්තුම ක්‍රියාව කරයි</td>
+                    </tr>
+                    <tr>
+                        <td>අපිම</td>
+                        <td>අපි එය අපිම හැදුවා.</td>
+                        <td>කතා කරන්නා + අන් අයම ක්‍රියාව කරයි</td>
+                    </tr>
+                    <tr>
+                        <td>ඔවුන්ම</td>
+                        <td>ඔවුන් ඔවුන්ම රසවිඳගත්තා.</td>
+                        <td>පිරිසක්ම ක්‍රියාව කරයි</td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+        
+        <!-- TAMIL TAB -->
+        <div id="tamil" class="tab-content">
+            <section class="intro-cards">
+                <div class="card tamil-text">
+                    <h3><i class="fas fa-question-circle"></i> சர்வநாமம் என்றால் என்ன?</h3>
+                    <p>சர்வநாமம் என்பது பெயர்ச்சொல்லுக்குப் பதிலாக வரும் ஒரு சொல்லாகும். இது ஒரே பெயரை மீண்டும் மீண்டும் சொல்லாமல் இருக்க உதவுகிறது.</p>
+                    <div class="example-box">
+                        <strong>உதாரணம்:</strong> "ரவி என் நண்பன். அவர் புத்திசாலி."<br>
+                        ("அவர்" என்பது ரவி-ஐ மாற்றி வரும் சர்வநாமம்)
+                    </div>
+                </div>
+                
+                <div class="card tamil-text">
+                    <h3><i class="fas fa-lightbulb"></i> ஏன் சர்வநாமங்கள் பயன்படுகிறது?</h3>
+                    <ul>
+                        <li>ஒரே பெயரை மீண்டும் மீண்டும் சொல்ல வேண்டாமலிருக்க</li>
+                        <li>வாக்கியங்களை சுருக்கமாக்க</li>
+                        <li>மனிதர்கள், விலங்குகள், பொருட்கள் பற்றி எளிதில் பேச</li>
+                        <li>தகவல்தொடர்பை திறம்பட செய்ய</li>
+                    </ul>
+                </div>
+                
+                <div class="card tamil-text">
+                    <h3><i class="fas fa-map-marker-alt"></i> சர்வநாமங்கள் பயன்படும் இடங்கள்</h3>
+                    <ul>
+                        <li>மனிதர்கள்: அவன், அவள், அவர்கள்</li>
+                        <li>விலங்குகள்: அது, அவை</li>
+                        <li>பொருட்கள்: அது</li>
+                        <li>நாம்/மற்றவர்கள்: நான், நீங்கள், நாங்கள்</li>
+                        <li>உரிமை: என், உங்கள், அவனுடைய</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="pronoun-section tamil-text">
+                <h2><i class="fas fa-layer-group"></i> சர்வநாம வகைகள்</h2>
+                
+                <h3><i class="fas fa-user"></i> 1. எழுவாய் சர்வநாமங்கள் (Subject)</h3>
+                <p>செயலைச் செய்பவரைக் காட்டுகிறது</p>
+                <table>
+                    <tr>
+                        <th>சர்வநாமம்</th>
+                        <th>உதாரணம்</th>
+                        <th>பயன்பாடு</th>
+                    </tr>
+                    <tr>
+                        <td>நான்</td>
+                        <td>நான் ஐஸ்கிரீம் விரும்புகிறேன்.</td>
+                        <td>பேசுபவர் தன்னை குறிக்க</td>
+                    </tr>
+                    <tr>
+                        <td>நீங்கள்</td>
+                        <td>நீங்கள் வேடிக்கையானவர்.</td>
+                        <td>பேசப்படும் நபர்</td>
+                    </tr>
+                    <tr>
+                        <td>அவன்</td>
+                        <td>அவன் என் நண்பன்.</td>
+                        <td>ஆண் நபர்</td>
+                    </tr>
+                    <tr>
+                        <td>அவள்</td>
+                        <td>அவள் நன்றாக பாடுகிறாள்.</td>
+                        <td>பெண் நபர்</td>
+                    </tr>
+                    <tr>
+                        <td>அது</td>
+                        <td>அது ஒரு பூனை.</td>
+                        <td>விலங்கு/பொருள்</td>
+                    </tr>
+                    <tr>
+                        <td>நாங்கள்</td>
+                        <td>நாங்கள் கிரிக்கெட் விளையாடுகிறோம்.</td>
+                        <td>பேசுபவர் + மற்றவர்கள்</td>
+                    </tr>
+                    <tr>
+                        <td>அவர்கள்</td>
+                        <td>அவர்கள் பள்ளியில் இருக்கிறார்கள்.</td>
+                        <td>பலர்/பல பொருள்கள்</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-bullseye"></i> 2. செயப்படுபொருள் சர்வநாமங்கள் (Object)</h3>
+                <p>செயலைப் பெறுபவரைக் காட்டுகிறது</p>
+                <table>
+                    <tr>
+                        <th>சர்வநாமம்</th>
+                        <th>உதாரணம்</th>
+                        <th>பயன்பாடு</th>
+                    </tr>
+                    <tr>
+                        <td>என்னை</td>
+                        <td>அவர் என்னை அழைத்தார்.</td>
+                        <td>செயலைப் பெறுபவர்</td>
+                    </tr>
+                    <tr>
+                        <td>உங்களை</td>
+                        <td>நான் உங்களை பார்த்தேன்.</td>
+                        <td>பேசப்படும் நபர் செயலைப் பெறுகிறார்</td>
+                    </tr>
+                    <tr>
+                        <td>அவனை</td>
+                        <td>நாங்கள் அவனை உதவினோம்.</td>
+                        <td>ஆண் நபர் செயலைப் பெறுகிறார்</td>
+                    </tr>
+                    <tr>
+                        <td>அவளை</td>
+                        <td>நான் பூங்காவில் அவளை சந்தித்தேன்.</td>
+                        <td>பெண் நபர் செயலைப் பெறுகிறார்</td>
+                    </tr>
+                    <tr>
+                        <td>அதை</td>
+                        <td>அவள் அதை விரும்புகிறாள்.</td>
+                        <td>விலங்கு/பொருள் செயலைப் பெறுகிறது</td>
+                    </tr>
+                    <tr>
+                        <td>எங்களை</td>
+                        <td>அவர்கள் எங்களை அழைத்தார்கள்.</td>
+                        <td>பேசுபவர் + மற்றவர்கள் செயலைப் பெறுகிறார்கள்</td>
+                    </tr>
+                    <tr>
+                        <td>அவர்களை</td>
+                        <td>நான் அவர்களுக்கு செய்தி சொன்னேன்.</td>
+                        <td>பலர் செயலைப் பெறுகிறார்கள்</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-key"></i> 3. உடைமை சர்வநாமங்கள் (Possessive)</h3>
+                <p>உரிமையைக் காட்டுகிறது</p>
+                <table>
+                    <tr>
+                        <th>சர்வநாமம்</th>
+                        <th>உதாரணம்</th>
+                        <th>பயன்பாடு</th>
+                    </tr>
+                    <tr>
+                        <td>என்</td>
+                        <td>இது என் பை.</td>
+                        <td>பேசுபவருக்கு சொந்தம்</td>
+                    </tr>
+                    <tr>
+                        <td>உங்கள்</td>
+                        <td>உங்கள் பேனா எங்கே?</td>
+                        <td>பேசப்படும் நபருக்கு சொந்தம்</td>
+                    </tr>
+                    <tr>
+                        <td>அவனுடைய</td>
+                        <td>அது அவனுடைய தொலைபேசி.</td>
+                        <td>ஆண் நபருக்கு சொந்தம்</td>
+                    </tr>
+                    <tr>
+                        <td>அவளுடைய</td>
+                        <td>இது அவளுடைய புத்தகம்.</td>
+                        <td>பெண் நபருக்கு சொந்தம்</td>
+                    </tr>
+                    <tr>
+                        <td>அதன்</td>
+                        <td>நாய் அதன் வாலை ஆட்டியது.</td>
+                        <td>விலங்கு/பொருளுக்கு சொந்தம்</td>
+                    </tr>
+                    <tr>
+                        <td>எங்கள்</td>
+                        <td>இது எங்கள் வீடு.</td>
+                        <td>பேசுபவர் + மற்றவர்களுக்கு சொந்தம்</td>
+                    </tr>
+                    <tr>
+                        <td>அவர்களுடைய</td>
+                        <td>இவை அவர்களுடைய காலணிகள்.</td>
+                        <td>பலருக்கு சொந்தம்</td>
+                    </tr>
+                </table>
+                
+                <h3><i class="fas fa-redo"></i> 4. தற்சுட்டு சர்வநாமங்கள் (Reflexive)</h3>
+                <p>செயலும் செய்பவரும் ஒருவராக இருக்கும் போது</p>
+                <table>
+                    <tr>
+                        <th>சர்வநாமம்</th>
+                        <th>உதாரணம்</th>
+                        <th>பயன்பாடு</th>
+                    </tr>
+                    <tr>
+                        <td>நானே</td>
+                        <td>நான் அதை நானே செய்தேன்.</td>
+                        <td>பேசுபவரே செயல் செய்கிறார்</td>
+                    </tr>
+                    <tr>
+                        <td>நீங்களே</td>
+                        <td>நீங்கள் உங்களே காயப்படுத்திக் கொண்டீர்கள்.</td>
+                        <td>பேசப்படும் நபரே செயல் செய்கிறார்</td>
+                    </tr>
+                    <tr>
+                        <td>அவனே</td>
+                        <td>அவன் அதை அவனே சரி செய்தான்.</td>
+                        <td>ஆண் நபரே செயல் செய்கிறார்</td>
+                    </tr>
+                    <tr>
+                        <td>அவளே</td>
+                        <td>அவள் அதை அவளே வரைந்தாள்.</td>
+                        <td>பெண் நபரே செயல் செய்கிறார்</td>
+                    </tr>
+                    <tr>
+                        <td>அதுவே</td>
+                        <td>பூனை அதுவே சுத்தம் செய்தது.</td>
+                        <td>விலங்கு/பொருளே செயல் செய்கிறது</td>
+                    </tr>
+                    <tr>
+                        <td>நாங்களே</td>
+                        <td>நாங்கள் அதை நாங்களே கட்டினோம்.</td>
+                        <td>பேசுபவர் + மற்றவர்களே செயல் செய்கிறார்கள்</td>
+                    </tr>
+                    <tr>
+                        <td>அவர்களே</td>
+                        <td>அவர்கள் அவர்களே மகிழ்ந்தனர்.</td>
+                        <td>பலரே செயல் செய்கிறார்கள்</td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        // Tab functionality
+        function openTab(language) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.getElementsByClassName('tab-btn');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+            
+            // Show the selected tab content and mark button as active
+            document.getElementById(language).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Quiz functionality
+        function checkAnswer(selectedOption, answerType, feedback) {
+            // Remove any existing classes
+            const options = selectedOption.parentElement.children;
+            for (let i = 0; i < options.length; i++) {
+                options[i].classList.remove('correct', 'incorrect');
+            }
+            
+            // Mark the selected option
+            selectedOption.classList.add(answerType);
+            
+            // Show feedback
+            const feedbackElement = selectedOption.parentElement.nextElementSibling;
+            feedbackElement.textContent = feedback;
+            feedbackElement.className = 'quiz-feedback';
+            feedbackElement.classList.add(answerType === 'correct' ? 'feedback-correct' : 'feedback-incorrect');
+            feedbackElement.style.display = 'block';
+        }
+        
+        // Navbar scroll animation
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle with animations
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const backdrop = document.getElementById('backdrop');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            backdrop.classList.toggle('active');
+            
+            // Reset animations when closing
+            if (!mobileNav.classList.contains('active')) {
+                mobileLinks.forEach(link => {
+                    link.style.opacity = '0';
+                    link.style.transform = 'translateX(20px)';
+                });
+            }
+        });
+
+        backdrop.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileNav.classList.remove('active');
+            backdrop.classList.remove('active');
+            mobileLinks.forEach(link => {
+                link.style.opacity = '0';
+                link.style.transform = 'translateX(20px)';
+            });
+        });
+
+        // Initialize first tab as active
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set English tab as active by default
+            const englishTab = document.getElementById('english');
+            if (englishTab) {
+                englishTab.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

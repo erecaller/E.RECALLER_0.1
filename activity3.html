@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>English Tense True/False Practice - E.RECALLER</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Navbar CSS -->
+  <link rel="stylesheet" href="css/navbar.css"/>
+  <style>
+    :root {
+      --primary: #4a6bff;
+      --secondary: #8a2be2;
+      --text: #333;
+      --light-bg: #f9f9f9;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --correct: #4CAF50;
+      --incorrect: #F44336;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .header p {
+      color: #555;
+      font-size: 1.1rem;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tab-button {
+      padding: 0.75rem 1.5rem;
+      background-color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 500;
+      color: #555;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .tab-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      color: var(--primary);
+    }
+
+    .tab-button.active {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 8px rgba(74, 107, 255, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .question-container {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background-color: var(--light-bg);
+      position: relative;
+    }
+
+    .question-number {
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background-color: var(--primary);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .question-text {
+      font-weight: 500;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .options {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .option {
+      padding: 0.8rem 1rem;
+      border: 2px solid #ddd;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .option.selected-true {
+      background-color: var(--correct);
+      color: white;
+      border-color: var(--correct);
+    }
+
+    .option.selected-false {
+      background-color: var(--incorrect);
+      color: white;
+      border-color: var(--incorrect);
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .feedback.correct {
+      color: var(--correct);
+      display: block;
+    }
+
+    .feedback.incorrect {
+      color: var(--incorrect);
+      display: block;
+    }
+
+    .score-display {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .skill-level {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      height: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .celebration.active {
+      opacity: 1;
+    }
+
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--primary);
+      opacity: 0;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .options {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo-container">
+      <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+      <div class="logo-text">E.RECALLER</div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="lessons.html" class="nav-link"><i class="fas fa-book-open"></i> Lessons</a>
+      <a href="activities.html" class="nav-link"><i class="fas fa-tasks"></i> Activities</a>
+      <a href="feedback.html" class="nav-link"><i class="fas fa-clipboard-list"></i> Feedback</a>
+      <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+    </nav>
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="backdrop" id="backdrop"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html" class="mobile-nav-link"><i class="fas fa-home mobile-nav-icon"></i> Home</a>
+    <a href="lessons.html" class="mobile-nav-link"><i class="fas fa-book-open mobile-nav-icon"></i> Lessons</a>
+    <a href="activities.html" class="mobile-nav-link"><i class="fas fa-tasks mobile-nav-icon"></i> Activities</a>
+    <a href="feedback.html" class="mobile-nav-link"><i class="fas fa-clipboard-list mobile-nav-icon"></i> Feedback</a>
+    <a href="help.html" class="mobile-nav-link"><i class="fas fa-question-circle mobile-nav-icon"></i> Help</a>
+  </nav>
+
+  <div class="container">
+    <div class="header">
+      <h1>True or False: Tense Practice</h1>
+      <p><i class="fas fa-info-circle"></i> Decide if each sentence is correct (✓) or incorrect (✗) for the given tense.</p>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="score-display">
+      Score: <span id="correctCount">0</span> / <span id="totalQuestions">0</span>
+    </div>
+    <div class="skill-level" id="skillLevel">Your level: Beginner</div>
+    <div id="tab-contents"></div>
+  </div>
+
+  <div class="celebration" id="celebration"></div>
+  
+
+  <script>
+    // Basic navbar mobile logic
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.toggle('active');
+      document.getElementById('backdrop').classList.toggle('active');
+    });
+
+    document.getElementById('backdrop').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.remove('active');
+      document.getElementById('backdrop').classList.remove('active');
+    });
+
+    const tensesData = {
+    "Simple Present": [
+    { sentence: "He go to school every day.", correctAnswer: false },
+    { sentence: "I play football on weekends.", correctAnswer: true },
+    { sentence: "She walks to work.", correctAnswer: true },
+    { sentence: "They goes to the market.", correctAnswer: false },
+    { sentence: "The dog bark at night.", correctAnswer: false },
+    { sentence: "We eats dinner together.", correctAnswer: false },
+    { sentence: "My brother reads books.", correctAnswer: true },
+    { sentence: "I does my homework.", correctAnswer: false },
+    { sentence: "The cat drinks milk.", correctAnswer: true },
+    { sentence: "She speak loudly.", correctAnswer: false },
+    { sentence: "They like ice cream.", correctAnswer: true },
+    { sentence: "It shine in the sky.", correctAnswer: false },
+    { sentence: "He helps his mother.", correctAnswer: true },
+    { sentence: "You watches TV.", correctAnswer: false },
+    { sentence: "The teacher teaches maths.", correctAnswer: true },
+    { sentence: "We live in a big house.", correctAnswer: true },
+    { sentence: "She go to school late.", correctAnswer: false },
+    { sentence: "My parents cooks dinner.", correctAnswer: false },
+    { sentence: "The sun rises in the east.", correctAnswer: true },
+    { sentence: "Birds flies in the sky.", correctAnswer: false }
+  ],
+  "Present Continuous": [
+    { sentence: "I am reading a book.", correctAnswer: true },
+    { sentence: "She is go to school.", correctAnswer: false },
+    { sentence: "They are playing outside.", correctAnswer: true },
+    { sentence: "He are eating lunch.", correctAnswer: false },
+    { sentence: "We is watching TV.", correctAnswer: false },
+    { sentence: "It is raining now.", correctAnswer: true },
+    { sentence: "I are doing homework.", correctAnswer: false },
+    { sentence: "The baby is sleeping.", correctAnswer: true },
+    { sentence: "You is talking loudly.", correctAnswer: false },
+    { sentence: "They is coming here.", correctAnswer: false },
+    { sentence: "She is writing a letter.", correctAnswer: true },
+    { sentence: "We are study for the test.", correctAnswer: false },
+    { sentence: "He is playing the guitar.", correctAnswer: true },
+    { sentence: "The children is shouting.", correctAnswer: false },
+    { sentence: "I am cooking dinner.", correctAnswer: true },
+    { sentence: "The dog are barking.", correctAnswer: false },
+    { sentence: "You are listening to music.", correctAnswer: true },
+    { sentence: "She are dancing gracefully.", correctAnswer: false },
+    { sentence: "They are watching a movie.", correctAnswer: true },
+    { sentence: "I is go to the store.", correctAnswer: false }
+  ],
+  "Present Perfect": [
+    { sentence: "I have eaten breakfast.", correctAnswer: true },
+    { sentence: "She has went to school.", correctAnswer: false },
+    { sentence: "They have finished their work.", correctAnswer: true },
+    { sentence: "He have taken his medicine.", correctAnswer: false },
+    { sentence: "We has played the game.", correctAnswer: false },
+    { sentence: "She has cooked dinner.", correctAnswer: true },
+    { sentence: "I has done the homework.", correctAnswer: false },
+    { sentence: "You have seen that movie.", correctAnswer: true },
+    { sentence: "The dog have barked.", correctAnswer: false },
+    { sentence: "He has cleaned the room.", correctAnswer: true },
+    { sentence: "They has left already.", correctAnswer: false },
+    { sentence: "It has rained a lot.", correctAnswer: true },
+    { sentence: "She have helped me.", correctAnswer: false },
+    { sentence: "I have washed my hands.", correctAnswer: true },
+    { sentence: "We have went to Paris.", correctAnswer: false },
+    { sentence: "He has broken the glass.", correctAnswer: true },
+    { sentence: "You has written a letter.", correctAnswer: false },
+    { sentence: "The boy has read the book.", correctAnswer: true },
+    { sentence: "I have meet her.", correctAnswer: false },
+    { sentence: "They have gone home.", correctAnswer: true }
+  ],
+  "Present Perfect Continuous": [
+    { sentence: "I have been studying all night.", correctAnswer: true },
+    { sentence: "She has be working hard.", correctAnswer: false },
+    { sentence: "They have been playing football.", correctAnswer: true },
+    { sentence: "He has been helps me.", correctAnswer: false },
+    { sentence: "We has been watching TV.", correctAnswer: false },
+    { sentence: "I have being reading.", correctAnswer: false },
+    { sentence: "You have been talking too much.", correctAnswer: true },
+    { sentence: "She have been sleeping.", correctAnswer: false },
+    { sentence: "He has been reading a novel.", correctAnswer: true },
+    { sentence: "The dog has been barking.", correctAnswer: true },
+    { sentence: "They has been shouting.", correctAnswer: false },
+    { sentence: "I has been running.", correctAnswer: false },
+    { sentence: "She has been learning French.", correctAnswer: true },
+    { sentence: "We have been eating.", correctAnswer: true },
+    { sentence: "You has been helping us.", correctAnswer: false },
+    { sentence: "He have been driving.", correctAnswer: false },
+    { sentence: "The cat has been chasing a mouse.", correctAnswer: true },
+    { sentence: "I have been waiting here.", correctAnswer: true },
+    { sentence: "She has been cooks dinner.", correctAnswer: false },
+    { sentence: "They have been working late.", correctAnswer: true }
+  ],
+  "Simple Past": [
+    { sentence: "He went to school yesterday.", correctAnswer: true },
+    { sentence: "She go to the market.", correctAnswer: false },
+    { sentence: "They played football last evening.", correctAnswer: true },
+    { sentence: "I eats pizza last night.", correctAnswer: false },
+    { sentence: "We watched a movie.", correctAnswer: true },
+    { sentence: "He write a letter.", correctAnswer: false },
+    { sentence: "The dog barked loudly.", correctAnswer: true },
+    { sentence: "I took the test.", correctAnswer: true },
+    { sentence: "She did not went there.", correctAnswer: false },
+    { sentence: "They was happy.", correctAnswer: false },
+    { sentence: "I was late to class.", correctAnswer: true },
+    { sentence: "We were at home.", correctAnswer: true },
+    { sentence: "He were tired.", correctAnswer: false },
+    { sentence: "She cooked dinner.", correctAnswer: true },
+    { sentence: "You did the work.", correctAnswer: true },
+    { sentence: "The boys was shouting.", correctAnswer: false },
+    { sentence: "I see a ghost.", correctAnswer: false },
+    { sentence: "She danced on stage.", correctAnswer: true },
+    { sentence: "He drank water.", correctAnswer: true },
+    { sentence: "They eats together.", correctAnswer: false }
+  ],
+  "Past Continuous": [
+    { sentence: "I was reading a book.", correctAnswer: true },
+    { sentence: "They was playing.", correctAnswer: false },
+    { sentence: "She were dancing.", correctAnswer: false },
+    { sentence: "We were studying.", correctAnswer: true },
+    { sentence: "He was writing a story.", correctAnswer: true },
+    { sentence: "You was listening.", correctAnswer: false },
+    { sentence: "It was raining.", correctAnswer: true },
+    { sentence: "The children was sleeping.", correctAnswer: false },
+    { sentence: "I were cooking.", correctAnswer: false },
+    { sentence: "They were shouting.", correctAnswer: true },
+    { sentence: "He were watching TV.", correctAnswer: false },
+    { sentence: "She was singing.", correctAnswer: true },
+    { sentence: "We was swimming.", correctAnswer: false },
+    { sentence: "The baby was crying.", correctAnswer: true },
+    { sentence: "I was walking to school.", correctAnswer: true },
+    { sentence: "They was cleaning the room.", correctAnswer: false },
+    { sentence: "You were running.", correctAnswer: true },
+    { sentence: "He was play the guitar.", correctAnswer: false },
+    { sentence: "She was talking to me.", correctAnswer: true },
+    { sentence: "It were raining hard.", correctAnswer: false }
+  ],
+  "Past Perfect": [
+    { sentence: "I had eaten before he arrived.", correctAnswer: true },
+    { sentence: "She had went home.", correctAnswer: false },
+    { sentence: "They had finished the project.", correctAnswer: true },
+    { sentence: "He had wrote the report.", correctAnswer: false },
+    { sentence: "We had watched the film.", correctAnswer: true },
+    { sentence: "You had broke the vase.", correctAnswer: false },
+    { sentence: "It had rained all night.", correctAnswer: true },
+    { sentence: "I had took the book.", correctAnswer: false },
+    { sentence: "She had left early.", correctAnswer: true },
+    { sentence: "They had saw the accident.", correctAnswer: false },
+    { sentence: "We had done our homework.", correctAnswer: true },
+    { sentence: "He had cleaned the room.", correctAnswer: true },
+    { sentence: "She had not ate anything.", correctAnswer: false },
+    { sentence: "I had helped him.", correctAnswer: true },
+    { sentence: "They had went to the beach.", correctAnswer: false },
+    { sentence: "You had known the answer.", correctAnswer: true },
+    { sentence: "He had fixed the car.", correctAnswer: true },
+    { sentence: "The teacher had gave homework.", correctAnswer: false },
+    { sentence: "We had been ready.", correctAnswer: true },
+    { sentence: "She had meet him before.", correctAnswer: false }
+  ],
+  "Past Perfect Continuous": [
+    { sentence: "I had been reading for hours.", correctAnswer: true },
+    { sentence: "She had be working all day.", correctAnswer: false },
+    { sentence: "They had been playing football.", correctAnswer: true },
+    { sentence: "He had been writes a story.", correctAnswer: false },
+    { sentence: "We had been studying.", correctAnswer: true },
+    { sentence: "You had been helps us.", correctAnswer: false },
+    { sentence: "I had being tired.", correctAnswer: false },
+    { sentence: "She had been cooking dinner.", correctAnswer: true },
+    { sentence: "He had been working late.", correctAnswer: true },
+    { sentence: "They had been shout.", correctAnswer: false },
+    { sentence: "I had been feeling sick.", correctAnswer: true },
+    { sentence: "We had been traveling.", correctAnswer: true },
+    { sentence: "He had been sings loudly.", correctAnswer: false },
+    { sentence: "You had been waiting long.", correctAnswer: true },
+    { sentence: "She had been watching TV.", correctAnswer: true },
+    { sentence: "They had been fight.", correctAnswer: false },
+    { sentence: "The dog had been barking.", correctAnswer: true },
+    { sentence: "I had been writing all night.", correctAnswer: true },
+    { sentence: "He had be learning English.", correctAnswer: false },
+    { sentence: "We had been planning a trip.", correctAnswer: true }
+  ],
+  "Simple Future": [
+    { sentence: "I will go to school tomorrow.", correctAnswer: true },
+    { sentence: "She will eats dinner.", correctAnswer: false },
+    { sentence: "They will play football.", correctAnswer: true },
+    { sentence: "He will went home.", correctAnswer: false },
+    { sentence: "We will see a movie.", correctAnswer: true },
+    { sentence: "You will helps me.", correctAnswer: false },
+    { sentence: "It will rain tonight.", correctAnswer: true },
+    { sentence: "I will takes a nap.", correctAnswer: false },
+    { sentence: "He will call you later.", correctAnswer: true },
+    { sentence: "She will goes shopping.", correctAnswer: false },
+    { sentence: "They will join us.", correctAnswer: true },
+    { sentence: "I will does my homework.", correctAnswer: false },
+    { sentence: "He will finish the task.", correctAnswer: true },
+    { sentence: "We will meet at 5 PM.", correctAnswer: true },
+    { sentence: "She will be here soon.", correctAnswer: true },
+    { sentence: "You will knows the answer.", correctAnswer: false },
+    { sentence: "The cat will sleeps.", correctAnswer: false },
+    { sentence: "I will bring my book.", correctAnswer: true },
+    { sentence: "He will starts work.", correctAnswer: false },
+    { sentence: "They will attend the party.", correctAnswer: true }
+  ],
+  "Future Continuous": [
+    { sentence: "I will be studying tonight.", correctAnswer: true },
+    { sentence: "She will be go to school.", correctAnswer: false },
+    { sentence: "They will be playing cricket.", correctAnswer: true },
+    { sentence: "He will be helps me.", correctAnswer: false },
+    { sentence: "We will be watching TV.", correctAnswer: true },
+    { sentence: "You will be cooking dinner.", correctAnswer: true },
+    { sentence: "It will be rain tomorrow.", correctAnswer: false },
+    { sentence: "I will being there.", correctAnswer: false },
+    { sentence: "She will be reading a book.", correctAnswer: true },
+    { sentence: "He will be working late.", correctAnswer: true },
+    { sentence: "They will be plays football.", correctAnswer: false },
+    { sentence: "I will be sleeping at 10.", correctAnswer: true },
+    { sentence: "We will be travel.", correctAnswer: false },
+    { sentence: "He will be learning English.", correctAnswer: true },
+    { sentence: "She will being singing.", correctAnswer: false },
+    { sentence: "You will be writing notes.", correctAnswer: true },
+    { sentence: "The baby will be sleeping.", correctAnswer: true },
+    { sentence: "He will be talks loudly.", correctAnswer: false },
+    { sentence: "I will be go home.", correctAnswer: false },
+    { sentence: "They will be arriving soon.", correctAnswer: true }
+  ],
+  "Future Perfect": [
+    { sentence: "I will have finished the work.", correctAnswer: true },
+    { sentence: "She will have wrote the letter.", correctAnswer: false },
+    { sentence: "They will have arrived.", correctAnswer: true },
+    { sentence: "He will has gone.", correctAnswer: false },
+    { sentence: "We will have watched the movie.", correctAnswer: true },
+    { sentence: "You will have done your homework.", correctAnswer: true },
+    { sentence: "It will have rain.", correctAnswer: false },
+    { sentence: "I will have took a shower.", correctAnswer: false },
+    { sentence: "She will have cooked dinner.", correctAnswer: true },
+    { sentence: "He will have completed the task.", correctAnswer: true },
+    { sentence: "They will has seen it.", correctAnswer: false },
+    { sentence: "We will have left by then.", correctAnswer: true },
+    { sentence: "I will have eats breakfast.", correctAnswer: false },
+    { sentence: "She will have cleaned the room.", correctAnswer: true },
+    { sentence: "You will have helped us.", correctAnswer: true },
+    { sentence: "He will have breaks the glass.", correctAnswer: false },
+    { sentence: "They will have played the game.", correctAnswer: true },
+    { sentence: "I will has read the book.", correctAnswer: false },
+    { sentence: "We will have been ready.", correctAnswer: true },
+    { sentence: "She will have gone home.", correctAnswer: true }
+  ],
+  "Future Perfect Continuous": [
+    { sentence: "I will have been working all day.", correctAnswer: true },
+    { sentence: "She will has been sleeping.", correctAnswer: false },
+    { sentence: "They will have been playing.", correctAnswer: true },
+    { sentence: "He will have been helps me.", correctAnswer: false },
+    { sentence: "We will have been studying.", correctAnswer: true },
+    { sentence: "You will have been reading.", correctAnswer: true },
+    { sentence: "It will has been raining.", correctAnswer: false },
+    { sentence: "I will have being working.", correctAnswer: false },
+    { sentence: "She will have been learning.", correctAnswer: true },
+    { sentence: "He will have been watching TV.", correctAnswer: true },
+    { sentence: "They will have been sing.", correctAnswer: false },
+    { sentence: "I will have been walking.", correctAnswer: true },
+    { sentence: "We will have been working late.", correctAnswer: true },
+    { sentence: "He will been writing.", correctAnswer: false },
+    { sentence: "She will have been talking.", correctAnswer: true },
+    { sentence: "You will have been shouting.", correctAnswer: true },
+    { sentence: "I will has been going.", correctAnswer: false },
+    { sentence: "They will have been eating.", correctAnswer: true },
+    { sentence: "He will have been fixing the car.", correctAnswer: true },
+    { sentence: "She will have been cry.", correctAnswer: false }
+  ]
+  
+    };
+
+    const levels = [
+      { name: "Beginner", min: 0 },
+      { name: "Basic", min: 20 },
+      { name: "Intermediate", min: 40 },
+      { name: "Advanced", min: 60 },
+      { name: "Expert", min: 80 }
+    ];
+
+    let correctCount = 0;
+    let total = 0;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const tabs = document.getElementById('tabs');
+      const contents = document.getElementById('tab-contents');
+      const progressBar = document.getElementById('progressBar');
+
+      for (const [tense, questions] of Object.entries(tensesData)) {
+        total += questions.length;
+
+        const tabBtn = document.createElement('button');
+        tabBtn.className = 'tab-button';
+        tabBtn.innerText = tense;
+        tabBtn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+          document.querySelectorAll('.tab-button').forEach(tb => tb.classList.remove('active'));
+          content.classList.add('active');
+          tabBtn.classList.add('active');
+        });
+
+        const content = document.createElement('div');
+        content.className = 'tab-content';
+
+        questions.forEach((q, i) => {
+          const qDiv = document.createElement('div');
+          qDiv.className = 'question-container';
+          qDiv.innerHTML = `
+            <div class="question-number">${i + 1}</div>
+            <div class="question-text">${q.sentence}</div>
+            <div class="options">
+              <div class="option" data-answer="true">✓ Correct</div>
+              <div class="option" data-answer="false">✗ Incorrect</div>
+            </div>
+            <div class="feedback"></div>
+          `;
+
+          qDiv.querySelectorAll('.option').forEach(opt => {
+            opt.addEventListener('click', () => {
+              if (qDiv.dataset.answered) return;
+              qDiv.dataset.answered = true;
+
+              const isCorrect = (opt.dataset.answer === q.correctAnswer.toString());
+              opt.classList.add(isCorrect ? 'selected-true' : 'selected-false');
+              qDiv.querySelector('.feedback').classList.add(isCorrect ? 'correct' : 'incorrect');
+              qDiv.querySelector('.feedback').innerText = isCorrect ? 'Correct!' : 'Incorrect.';
+
+              if (isCorrect) {
+                correctCount++;
+                document.getElementById('correctCount').innerText = correctCount;
+                updateProgress();
+              }
+
+              qDiv.querySelectorAll('.option').forEach(o => o.style.pointerEvents = 'none');
+            });
+          });
+
+          content.appendChild(qDiv);
+        });
+
+        tabs.appendChild(tabBtn);
+        contents.appendChild(content);
+      }
+
+      document.getElementById('totalQuestions').innerText = total;
+      tabs.children[0].click();
+    });
+
+    function updateProgress() {
+      const percent = Math.round((correctCount / total) * 100);
+      document.getElementById('progressBar').style.width = percent + '%';
+
+      const level = levels.reverse().find(l => percent >= l.min) || levels[0];
+      document.getElementById('skillLevel').innerText = `Your level: ${level.name}`;
+
+      if (percent === 100) showCelebration();
+    }
+
+    function showCelebration() {
+      const celebration = document.getElementById('celebration');
+      celebration.classList.add('active');
+      for (let i = 0; i < 50; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = `${Math.random() * 100}%`;
+        c.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        c.style.animation = `confettiFall ${3 + Math.random() * 3}s linear forwards`;
+        celebration.appendChild(c);
+      }
+      setTimeout(() => celebration.classList.remove('active'), 3000);
+    }
+  </script>
+</body>
+</html>

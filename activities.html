@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activities - E.RECALLER</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Navbar CSS -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <style>
+    /* Activity Page Styles */
+    .activity-page {
+      padding-top: 0px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+
+    .activity-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .activity-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .activity-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .activity-header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .activity-header p {
+      color: #555;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Activity Tabs */
+    .activity-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .activity-tab {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      text-align: center;
+      border-top: 4px solid var(--primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-tab:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-tab i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .activity-tab h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .activity-tab p {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .activity-tab a {
+      display: inline-block;
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .activity-tab a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .activity-tabs {
+        grid-template-columns: 1fr;
+      }
+      
+      .activity-page {
+        padding-top: 00px;
+      }
+    }
+  </style>
+</head>
+<body class="activity-page">
+  <!-- Navbar (same as about.html) -->
+  <header class="navbar">
+    <div class="logo-container">
+      <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+      <div class="logo-text">E.RECALLER</div>
+    </div>
+    
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="lessons.html" class="nav-link"><i class="fas fa-book-open"></i> Lessons</a>
+      <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+      <a href="feedback.html" class="nav-link"><i class="fas fa-clipboard-list"></i> Feedback</a>
+      <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+    </nav>
+    
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="backdrop" id="backdrop"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html" class="mobile-nav-link">
+      <i class="fas fa-home mobile-nav-icon"></i> Home
+    </a>
+    <a href="lessons.html" class="mobile-nav-link">
+      <i class="fas fa-book-open mobile-nav-icon"></i> Lessons
+    </a> 
+    <a href="about.html" class="mobile-nav-link">
+      <i class="fas fa-info-circle mobile-nav-icon"></i> About
+    </a>
+    <a href="feedback.html" class="mobile-nav-link">
+      <i class="fas fa-clipboard-list mobile-nav-icon"></i> Feedback
+    </a>
+    <a href="help.html" class="mobile-nav-link">
+      <i class="fas fa-question-circle mobile-nav-icon"></i> Help
+    </a>
+  </nav>
+
+  <!-- Main Activity Content -->
+  <div class="activity-container">
+    <div class="activity-header">
+      <h1>Tenses Activities</h1>
+      <p>Explore our interactive activities designed to enhance your English skills through practice and repetition.</p>
+    </div>
+
+    <div class="activity-tabs">
+      <!-- Activity 1 -->
+      <div class="activity-tab">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <h3>MCQ Activity</h3>
+        <p> This activity helps learners choose the correct verb form from multiple options. Each sentence focuses on one tense and only one answer is grammatically correct.</p>
+        <a href="activity1.html">Start Activity</a>
+      </div>
+
+      <!-- Activity 2 -->
+      <div class="activity-tab">
+        <i class="fas fa-marker"></i>
+        <h3>Filling in the blanks</h3>
+        <p>This activity helps learners practice applying the correct verb tense. Complete each sentence by choosing the correct verb form from four options.</p>
+        <a href="activity2.html">Start Activity</a>
+      </div>
+
+      <!-- Activity 3 -->
+      <div class="activity-tab">
+        <i class="fas fa-check-circle"></i>
+        <h3>Correct/Incorrect</h3>
+        <p>TThis activity helps learners practice identifying and correcting verb tense usage in context. For each sentence, decide if the verb form is correct (✓) or incorrect (✗) for the specified tense.</p>
+        <a href="activity3.html">Start Activity</a>
+      </div>
+
+      <!-- Activity 4 -->
+      <div class="activity-tab">
+        <i class="fas fa-random"></i>
+        <h3>Jumbled Words</h3>
+        <p>This activity helps learners form correct sentences in the right tense by rearranging the given jumbled words. Each set forms one grammatically correct sentence.</p>
+        <a href="activity4.html">Start Activity</a>
+      </div>
+
+      <!-- Add more activities following the same pattern -->
+      <!-- Remember to create corresponding HTML files (activity7.html to activity20.html) -->
+    </div>
+  </div>
+  
+
+  <script>
+    // Mobile menu toggle (same as about.html)
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const backdrop = document.getElementById('backdrop');
+
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    });
+
+    backdrop.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      backdrop.classList.remove('active');
+    });
+
+    // Check auth status
+    document.addEventListener('DOMContentLoaded', () => {
+      const isLoggedIn = localStorage.getItem('currentUser') !== null;
+      if (isLoggedIn) {
+        document.getElementById('profile-link').style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>

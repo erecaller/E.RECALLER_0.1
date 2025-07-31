@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lessons - E.RECALLER</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4a6bff;
+      --secondary: #8a2be2;
+      --accent: #ff6b6b;
+      --text: #555454;
+      --light-bg: #f9f9f9;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --overlay: rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      line-height: 1.6;
+      background: linear-gradient(0deg, var(--primary), var(--secondary));
+      background-size: cover;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+    /* Animated Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--bg);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.4s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 0.8rem 2rem;
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-img {
+      height: 30px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    /* Animated Nav Links */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-link i {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover i {
+      transform: scale(1.2);
+    }
+    /* Updated Navbar Styles */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-img {
+      height: 30px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary);
+      border-radius: 2px;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    /* Mobile Navigation */
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -500px;
+      width: 280px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      gap: 1rem;
+      transition: left 0.3s ease;
+    }
+
+    .mobile-nav.active {
+      left: 0;
+    }
+
+    .mobile-nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .mobile-nav-link:hover {
+      background-color: rgba(74, 107, 255, 0.1);
+      color: var(--primary);
+    }
+
+    .mobile-nav-icon {
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Lessons Section */
+    .lessons-section {
+      padding: 3rem 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    /* Tenses Grid */
+    .tenses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tense-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s;
+      border-left: 4px solid var(--primary);
+      text-align: center;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .tense-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .tense-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .tense-description {
+      color: #555;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .learn-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+
+    .learn-btn:hover {
+      background: #3a5bed;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .tenses-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Updated Navbar -->
+  <header class="navbar">
+    <div class="logo-container">
+      <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+      <div class="logo-text">E.RECALLER</div>
+    </div>
+    
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+      <a href="feedback.html" class="nav-link"><i class="fas fa-clipboard-list"></i> Feedback</a>
+      <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+    </nav>
+    
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="backdrop" id="backdrop"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html" class="mobile-nav-link">
+      <i class="fas fa-home mobile-nav-icon"></i> Home
+    </a>
+    <a href="about.html" class="mobile-nav-link">
+      <i class="fas fa-info-circle mobile-nav-icon"></i> About
+    </a>
+    <a href="feedback.html" class="mobile-nav-link">
+      <i class="fas fa-clipboard-list mobile-nav-icon"></i> Feedback
+    </a>
+    <a href="help.html" class="mobile-nav-link">
+      <i class="fas fa-question-circle mobile-nav-icon"></i> Help
+    </a>
+  </nav>
+
+  <!-- Lessons Section -->
+  <section class="lessons-section">
+    <h2 class="section-title">LESSONS ZONE</h2>
+    <p class="subtitle">Start with the basics and move forward at your own pace. Each lesson builds on the last, helping you gain confidence and understanding as you go.</p>
+    
+    <div class="tenses-grid">
+      <!-- Tense Card 1 -->
+      <div class="tense-card">
+        <h3 class="tense-name">TENSES</h3>
+        <p class="tense-description">Here, you’ll learn how to use all 12 English tenses through simple explanations and practical examples. Understanding tenses is key to speaking and writing English clearly. Whether you're a beginner or looking to strengthen your grammar, these lessons will help you build confidence and improve your English step by step.</p>
+        <button class="learn-btn" onclick="window.location.href='tenses.html'">LEARN TENSES</button>
+      </div>
+      
+      <!-- Tense Card 2 -->
+      <div class="tense-card">
+        <h3 class="tense-name">PRONOUNS</h3>
+        <p class="tense-description">Here, you’ll learn how to use English pronouns through clear explanations and useful examples. Understanding pronouns helps you avoid repetition and speak more naturally. Whether you're just starting or improving your grammar, these lessons will guide you to use pronouns confidently and correctly.</p>
+        <button class="learn-btn" onclick="window.location.href='pronoun.html'">LEARN PRONOUNS</button>
+      </div>
+      
+      <!-- Tense Card 3 -->
+      <div class="tense-card">
+        <h3 class="tense-name">🚧 Page Under Development 🚧</h3>
+        <p class="tense-description">We're currently working hard to bring you new and improved content on this page. Please check back soon! Thank you for your patience and support.</p>
+        <button class="learn-btn" onclick="window.location.href='future-simple.html'">🛠🛠🛠🛠</button>
+      </div>
+      
+      <!-- Tense Card 4 -->
+      <div class="tense-card">
+        <h3 class="tense-name">🚧 Page Under Development 🚧</h3>
+        <p class="tense-description">We're currently working hard to bring you new and improved content on this page. Please check back soon! Thank you for your patience and support.</p>
+        <button class="learn-btn" onclick="window.location.href='present-continuous.html'">🛠🛠🛠🛠</button>
+      </div>
+    </div>
+  </section>
+  
+
+  <script>
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const backdrop = document.getElementById('backdrop');
+
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    });
+
+    backdrop.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      backdrop.classList.remove('active');
+    });
+
+    // You can keep this if you want both onclick and event listener
+    document.querySelectorAll('.learn-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tenseName = this.parentElement.querySelector('.tense-name').textContent;
+        console.log(`Starting lesson: ${tenseName}`);
+      });
+    });
+  </script>
+</body>
+</html>

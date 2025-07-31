@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E.RECALLER - Feedback System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="referrer" content="no-referrer">
+  <style>
+    :root {
+      --primary: #4a6bff;
+      --secondary: #8a2be2;
+      --accent: #ff6b6b;
+      --text: #525252;
+      --light-bg: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --overlay: rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      line-height: 1.6;
+      background: linear-gradient(1deg, var(--primary), var(--secondary));
+      background-size: fixed;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 104.45%;
+      --x: #00000093;      
+      background-color: var(--x);
+      z-index: -1;
+    }
+
+    /* Navbar Styles - Updated to match about.html */
+
+        /* Animated Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--bg);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.4s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 0.8rem 2rem;
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-img {
+      height: 30px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    /* Animated Nav Links */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-link i {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover i {
+      transform: scale(1.2);
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-img {
+      height: 30px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary);
+      border-radius: 2px;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    
+
+    /* Mobile Navigation */
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -500px;
+      width: 280px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      gap: 1rem;
+      transition: left 0.3s ease;
+    }
+
+    .mobile-nav.active {
+      left: 0;
+    }
+
+    .mobile-nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .mobile-nav-link:hover {
+      background-color: rgba(74, 107, 255, 0.1);
+      color: var(--primary);
+    }
+
+    .mobile-nav-icon {
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Feedback Section Styles */
+    .feedback-section {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: rgb(255, 255, 255);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .feedback-container {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      /* New properties for dynamic sizing */
+      min-height: 200px; /* Minimum height when empty */
+      max-height: 80vh; /* Maximum height before scrolling */
+      overflow-y: auto; /* Enable vertical scrolling if needed */
+      transition: all 0.3s ease; /* Smooth height transitions */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Add this to make the feedback items container scrollable */
+    .feedback-items {
+      display: grid;
+      gap: 1.5rem;
+      overflow-y: auto;
+      flex-grow: 1; /* Takes remaining space */
+      padding-right: 8px; /* Prevents scrollbar from touching edge */
+    }
+
+    /* Custom scrollbar styling */
+    .feedback-items::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .feedback-items::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    .feedback-items::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    .feedback-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .feedback-title {
+      font-size: 1.5rem;
+      margin: 0;
+      color: var(--primary);
+    }
+
+    .feedback-button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feedback-button:hover {
+      background: #3a5bed;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+    }
+
+    .feedback-items {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .feedback-item {
+      background: var(--light-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+      transition: all 0.3s;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .feedback-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .feedback-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .feedback-author {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .feedback-date {
+      color: #666;
+    }
+
+    .feedback-rating {
+      color: #ffb400;
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+
+    .feedback-content {
+      margin-top: 0.5rem;
+      color: #444;
+    }
+
+    .no-feedback {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      position: relative;
+      transform: scale(0.95);
+      transition: all 0.3s ease;
+    }
+
+    .modal.active .modal-content {
+      transform: scale(1);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+      background: none;
+      border: none;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .submit-btn:hover {
+      background: #3a5bed;
+    }
+
+    .rating-container {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .rating-container input {
+      display: none;
+    }
+
+    .rating-container label {
+      font-size: 2rem;
+      color: #ddd;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .rating-container input:checked ~ label,
+    .rating-container label:hover,
+    .rating-container label:hover ~ label {
+      color: #ffb400;
+    }
+
+    .rating-container input:checked + label {
+      color: #ffb400;
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: var(--primary);
+      font-weight: 600;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
+    }
+
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #4CAF50;
+      animation: bounce 1s;
+    }
+
+    .error-message {
+      color: var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ffcccc;
+      border-radius: 4px;
+      background: #fff5f5;
+    }
+
+    .retry-button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .network-error {
+      background: #fff5f5;
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+
+    .demo-notice {
+      font-size: 0.85rem;
+      color: #666;
+      text-align: center;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .feedback-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+      }
+    }
+    /* Add these new styles at the end of your style section */
+    .done-button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: block;
+      width: 100%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .done-button:hover {
+      background: #3a5bed;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .confirmation-message {
+      text-align: center;
+      padding: 2rem;
+      display: none;
+    }
+    
+    .confirmation-icon {
+      font-size: 4rem;
+      color: #4CAF50;
+      margin-bottom: 1rem;
+      animation: bounce 1s;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar - Updated to match about.html -->
+  <header class="navbar">
+    <div class="logo-container">
+      <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+      <div class="logo-text">E.RECALLER</div>
+    </div>
+    
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+      <a href="feedback.html" class="nav-link active"><i class="fas fa-clipboard-list"></i> Feedback</a>
+      <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+    </nav>
+    
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="backdrop" id="backdrop"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html" class="mobile-nav-link">
+      <i class="fas fa-home mobile-nav-icon"></i> Home
+    </a>
+    <a href="about.html" class="mobile-nav-link">
+      <i class="fas fa-info-circle mobile-nav-icon"></i> About
+    </a>
+    <a href="feedback.html" class="mobile-nav-link">
+      <i class="fas fa-clipboard-list mobile-nav-icon"></i> Feedback
+    </a>
+    <a href="help.html" class="mobile-nav-link">
+      <i class="fas fa-question-circle mobile-nav-icon"></i> Help
+    </a>
+  </nav>
+  <!-- Feedback Section -->
+  <section class="feedback-section">
+    <h2 class="section-title">User Feedback</h2>
+    <div class="feedback-container">
+      <div class="feedback-header">
+        <h3 class="feedback-title">What Learners Say</h3>
+        <button class="feedback-button" id="openFeedbackForm">
+          <i class="Add Feedback"></i> Add Feedback
+        </button>
+      </div>
+<!-- ================================================================================================================================================ -->
+<!-- =================================================== Start Feedback Section ===================================================================== -->
+<!-- ================================================================================================================================================ -->
+<!--★-☆-->
+
+      <div class="feedback-items" id="feedbackItems">
+
+<!-- ================================================================================================================================================ -->
+  <p> Feedback section empty! </p>
+<!-- ================================================================================================================================================ -->
+
+<!-- ================================================================================================================================================ -->
+<!-- ==================================================== End Feedback Section ====================================================================== -->
+<!-- ================================================================================================================================================ -->
+      </div>
+      <div class="demo-notice">
+        <p>🙏 Thank You for Your Feedback!</p>
+        <p>We truly appreciate you taking the time to share your thoughts with us. Your feedback helps us improve and serve you better.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="feedbackModal">
+    <div class="modal-content">
+      <h2 style="margin-top: 0; color: var(--primary);">Share Your Feedback</h2>
+      <iframe id="googleForm" src="https://docs.google.com/forms/d/e/1FAIpQLSd2ZUkf7o_NmjMrtkPFRoJeu7OMeUDGgjAF2lLRbBkgVma1jg/viewform?embedded=true" 
+              style="width: 100%; height: 500px; border: none;"></iframe>
+      
+      <button class="done-button" id="doneButton">
+        Done
+      </button>
+      
+      <div class="confirmation-message" id="confirmationMessage">
+        <div class="confirmation-icon floating">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Thank You! ✨</h3>
+        <p>Your feedback is on its way to us!</p>
+        <p>It will appear in the feedback section after our team reviews it.</p>
+        <p>We appreciate you helping us improve E.RECALLER!</p>
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+    // Configuration - Replace with your Google Form URL
+    const CONFIG = {
+      GOOGLE_FORM_URL: "https://docs.google.com/forms/d/e/1FAIpQLSd2ZUkf7o_NmjMrtkPFRoJeu7OMeUDGgjAF2lLRbBkgVma1jg/viewform?usp=sharing&ouid=102987308566802408546",
+    };
+
+    // DOM Elements
+    const feedbackModal = document.getElementById('feedbackModal');
+    const openFeedbackForm = document.getElementById('openFeedbackForm');
+    const doneButton = document.getElementById('doneButton');
+    const confirmationMessage = document.getElementById('confirmationMessage');
+    const googleForm = document.getElementById('googleForm');
+
+    // Open modal
+    openFeedbackForm.addEventListener('click', () => {
+      feedbackModal.style.display = 'flex';
+      confirmationMessage.style.display = 'none';
+      googleForm.style.display = 'block';
+    });
+
+    // Done button handler
+    doneButton.addEventListener('click', () => {
+      googleForm.style.display = 'none';
+      doneButton.style.display = 'none';
+      confirmationMessage.style.display = 'block';
+      
+      // Close modal after 3 seconds
+      setTimeout(() => {
+        feedbackModal.style.display = 'none';
+        doneButton.style.display = 'block';
+      }, 7000);
+    });
+
+    // Close modal when clicking outside
+    feedbackModal.addEventListener('click', (e) => {
+      if (e.target === feedbackModal) {
+        feedbackModal.style.display = 'none';
+        doneButton.style.display = 'block';
+        googleForm.style.display = 'block';
+        confirmationMessage.style.display = 'none';
+      }
+    });
+
+    // Mobile menu toggle
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    });
+
+    backdrop.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      backdrop.classList.remove('active');
+    });
+
+    openFeedbackForm.addEventListener('click', () => {
+      feedbackModal.style.display = 'flex';
+      googleForm.src = CONFIG.GOOGLE_FORM_URL; // Load the form when modal opens
+    });
+
+    // Simplified close function
+    function closeFeedbackModal() {
+      feedbackModal.style.display = 'none';
+      googleForm.src = ''; // Unload the form when closing
+    }
+    
+    closeModal.addEventListener('click', closeFeedbackModal);
+    feedbackModal.addEventListener('click', (e) => e.target === feedbackModal && closeFeedbackModal());
+
+    function closeFeedbackModal() {
+      feedbackModal.classList.remove('active');
+      setTimeout(() => {
+        feedbackModal.style.display = 'none';
+        resetForm();
+      }, 300);
+    }
+
+    function resetForm() {
+      feedbackForm.reset();
+      feedbackForm.style.display = 'block';
+      googleForm.style.display = 'none';
+      successMessage.style.display = 'none';
+      formError.style.display = 'none';
+    }
+
+    // Load feedback data
+    async function loadFeedback() {
+      // In a real implementation, you would fetch feedback from your database
+      // For demo purposes, we're using the static demo feedback
+      if (!CONFIG.DEMO_MODE) {
+        try {
+          // Here you would fetch real feedback data from your backend
+          // const response = await fetch('your-api-endpoint');
+          // const data = await response.json();
+          // displayFeedback(data);
+        } catch (error) {
+          console.error("Failed to load feedback:", error);
+          showNetworkError(error);
+        }
+      }
+    }
+
+    function displayFeedback(feedbackData) {
+      if (!feedbackData || feedbackData.length === 0) {
+        feedbackItems.innerHTML = `
+          <div class="no-feedback">
+            <p>No feedback yet. Be the first to share!</p>
+          </div>
+        `;
+        return;
+      }
+
+      feedbackItems.innerHTML = feedbackData.map(item => `
+        <div class="feedback-item">
+          <div class="feedback-meta">
+            <span class="feedback-author">${escapeHtml(item.Name || "Anonymous")}</span>
+            <span class="feedback-date">${formatDate(item.Timestamp)}</span>
+          </div>
+          ${item.Rating ? `<div class="feedback-rating">${"★".repeat(item.Rating)}${"☆".repeat(5 - item.Rating)}</div>` : ''}
+          <div class="feedback-content">
+            <p>${escapeHtml(item.Feedback || "No message provided.")}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function showNetworkError(error) {
+      feedbackItems.innerHTML = `
+        <div class="no-feedback">
+          <div class="network-error">
+            <p><i class="fas fa-exclamation-triangle"></i> Connection Error</p>
+            <p>${error.message}</p>
+            <button onclick="loadFeedback()" class="retry-button">
+              <i class="fas fa-sync-alt"></i> Try Again
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Submit feedback
+    feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      submitText.style.display = 'none';
+      submitSpinner.style.display = 'inline';
+      formError.style.display = 'none';
+
+      try {
+        const formData = new FormData(feedbackForm);
+        const data = {
+          Name: formData.get('name') || 'Anonymous',
+          Rating: formData.get('rating') || 1,
+          Feedback: formData.get('feedback'),
+          Timestamp: new Date().toISOString()
+        };
+
+        // Validate feedback
+        if (!data.Feedback || data.Feedback.trim() === '') {
+          throw new Error('Please enter your feedback');
+        }
+
+        if (CONFIG.DEMO_MODE) {
+          // In demo mode, just show success message
+          simulateFormSubmission();
+        } else {
+          // In production, submit to Google Form
+          await submitToGoogleForm(data);
+        }
+      } catch (error) {
+        console.error('Submit error:', error);
+        showFormError(error.message.includes('Failed to fetch') 
+          ? 'Network error. Please check your connection.' 
+          : error.message);
+      } finally {
+        submitText.style.display = 'inline';
+        submitSpinner.style.display = 'none';
+      }
+    });
+
+    function simulateFormSubmission() {
+      feedbackForm.style.display = 'none';
+      successMessage.style.display = 'block';
+      
+      setTimeout(() => {
+        closeFeedbackModal();
+      }, 3000);
+    }
+
+    async function submitToGoogleForm(data) {
+      // Google Forms requires specific field names
+      const formData = new URLSearchParams();
+      formData.append('entry.123456789', data.Name); // Replace with your field ID
+      formData.append('entry.987654321', data.Rating); // Replace with your field ID
+      formData.append('entry.192837465', data.Feedback); // Replace with your field ID
+      
+      const response = await fetch(CONFIG.FORM_SUBMIT_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // Google Forms requires no-cors mode
+      });
+      
+      // With no-cors, we can't read the response, but we can assume it worked
+      feedbackForm.style.display = 'none';
+      successMessage.style.display = 'block';
+      
+      setTimeout(() => {
+        closeFeedbackModal();
+      }, 3000);
+    }
+
+    function showFormError(message) {
+      formError.textContent = message;
+      formError.style.display = 'block';
+      formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Helper functions
+    function formatDate(dateString) {
+      if (!dateString) return "";
+      const date = new Date(dateString);
+      return isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      loadFeedback();
+    });
+
+    // Make loadFeedback available globally for retry button
+    window.loadFeedback = loadFeedback;
+  </script>
+</body>
+</html>

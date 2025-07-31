@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - E.RECALLER</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Navbar CSS -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <style>
+    /* About Page Styles */
+    .about-page {
+      position: relative;
+      min-height: 100vh;
+      padding-top: 0px;
+    }
+    
+    .about-container {
+      background: linear-gradient(1deg, #ccdffc 0%, #ffffff 100%);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 3rem;
+      max-width: 1500px;
+      margin: 2rem auto;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .about-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+      opacity: 0.1;
+    }
+    
+    /* About Content Styling */
+    .about-content {
+      text-align: center;
+    }
+    
+    .about-content h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .about-content h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+    
+    .about-content h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin: 2.5rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .about-content p {
+      color: #555;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    /* Founder Section */
+    .founder-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      margin: 3rem 0;
+      padding: 2rem;
+      background: #4a6bff0d;
+      border-radius: 15px;
+      border-left: 4px solid var(--primary);
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .founder-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #4a6bff;
+      box-shadow: 0 5px 15px #0000001a;
+    }
+    
+    .founder-info {
+      text-align: left;
+      flex: 1;
+    }
+    
+    .founder-info h3 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .founder-info p.position {
+      color: #666;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    
+    /* Approach Cards */
+    .approach-cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .approach-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      width: 300px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-top: 3px solid var(--primary);
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .approach-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .approach-card i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    
+    .approach-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    
+    @media (max-width: 768px) {
+      .about-container {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+      }
+      
+      .founder-section {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .founder-info {
+        text-align: center;
+      }
+      
+      .approach-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="about-page">
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo-container">
+      <img src="logo.png" alt="E.RECALLER Logo" class="logo-img">
+      <div class="logo-text">E.RECALLER</div>
+    </div>
+    
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="about.html" class="nav-link active"><i class="fas fa-info-circle"></i> About</a>
+      <a href="feedback.html" class="nav-link"><i class="fas fa-clipboard-list"></i> Feedback</a>
+      <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i> Help</a>
+    </nav>
+    
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="backdrop" id="backdrop"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html" class="mobile-nav-link">
+      <i class="fas fa-home mobile-nav-icon"></i> Home
+    </a>
+    <a href="about.html" class="mobile-nav-link">
+      <i class="fas fa-info-circle mobile-nav-icon"></i> About
+    </a>
+    <a href="feedback.html" class="mobile-nav-link">
+      <i class="fas fa-clipboard-list mobile-nav-icon"></i> Feedback
+    </a>
+    </a>
+    <a href="help.html" class="mobile-nav-link">
+      <i class="fas fa-question-circle mobile-nav-icon"></i> Help
+    </a>
+  </nav>
+
+  <!-- Main About Content -->
+  <div class="about-container">
+    <div class="about-content">
+      <h1>About E.RECALLER</h1>
+      <p>Welcome to E.RECALLER, your premier platform for English language learning. Our mission is to help students worldwide improve their English skills through innovative and interactive methods.</p>
+      
+      <!-- Founder Section -->
+      <div class="founder-section">
+        <img src="founder.jpg" alt="A.D.Suraweera" class="founder-image">
+        <div class="founder-info">
+          <h3>A.D. Suraweera</h3>
+          <p class="position">👑 Founder  | 💻 Lead Developer  | 🎨 UX/UI Designer</p>
+          <p>Founded in 2025, A.D.Suraweera began his journey as an English teacher with a passion for helping others improve their language skills through creative and interactive methods.</p>
+        </div>
+      </div>
+      
+      <h2><i class="fas fa-lightbulb"></i> Our Approach</h2>
+      <p>We combine spaced repetition techniques with real-world context to make learning natural and effective.</p>
+      
+      <!-- Approach Cards -->
+      <div class="approach-cards">
+        <div class="approach-card">
+          <i class="fas fa-brain"></i>
+          <h3>Spaced Repetition</h3>
+          <p>Our algorithm optimizes review timing to help knowledge stick in your long-term memory.</p>
+        </div>
+        
+        <div class="approach-card">
+          <i class="fas fa-globe"></i>
+          <h3>Real-World Context</h3>
+          <p>Learn through authentic materials and practical situations you'll encounter daily.</p>
+        </div>
+        
+        <div class="approach-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>Personalized Learning</h3>
+          <p>Adaptive paths that adjust to your progress and focus on your weak areas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const backdrop = document.getElementById('backdrop');
+
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    });
+
+    backdrop.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+      backdrop.classList.remove('active');
+    });
+
+    // Check auth status
+    document.addEventListener('DOMContentLoaded', () => {
+      const isLoggedIn = localStorage.getItem('currentUser') !== null;
+      if (isLoggedIn) {
+        document.getElementById('profile-link').style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>
